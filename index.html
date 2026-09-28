@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ระบบงานสารบรรณอิเล็กทรอนิกส์ | เทศบาลตำบลเวียงชัย</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,"Noto Sans Thai",Tahoma,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#1f2937;
+}
+
+/* ===== SIDEBAR ===== */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:245px;
+    height:100vh;
+    background:linear-gradient(180deg,#075985,#0f766e);
+    color:white;
+    padding:20px 14px;
+    z-index:10;
+}
+
+.logo{
+    text-align:center;
+    padding:10px 5px 25px;
+}
+
+.logo-circle{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:white;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#075985;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.logo h2{
+    font-size:16px;
+    margin-top:10px;
+}
+
+.logo p{
+    font-size:12px;
+    opacity:.8;
+    margin-top:4px;
+}
+
+.menu{
+    margin-top:10px;
+}
+
+.menu-item{
+    padding:12px 14px;
+    border-radius:10px;
+    margin:5px 0;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.menu-item:hover,
+.menu-item.active{
+    background:rgba(255,255,255,.18);
+}
+
+.icon{
+    width:24px;
+    text-align:center;
+}
+
+/* ===== MAIN ===== */
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+/* ===== TOPBAR ===== */
+
+.topbar{
+    height:72px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.search{
+    width:430px;
+    background:#f3f4f6;
+    border-radius:10px;
+    padding:11px 15px;
+    color:#6b7280;
+    font-size:14px;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#dbeafe;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    color:#075985;
+}
+
+.user-info strong{
+    display:block;
+    font-size:14px;
+}
+
+.user-info span{
+    font-size:12px;
+    color:#6b7280;
+}
+
+/* ===== CONTENT ===== */
+
+.content{
+    padding:28px;
+}
+
+.page-title{
+    margin-bottom:22px;
+}
+
+.page-title h1{
+    font-size:27px;
+    color:#111827;
+}
+
+.page-title p{
+    color:#6b7280;
+    margin-top:5px;
+}
+
+/* ===== STAT CARDS ===== */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:16px;
+    margin-bottom:24px;
+}
+
+.stat{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+    border:1px solid #eef2f7;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.blue{
+    background:#dbeafe;
+}
+
+.green{
+    background:#dcfce7;
+}
+
+.orange{
+    background:#fef3c7;
+}
+
+.purple{
+    background:#ede9fe;
+}
+
+.red{
+    background:#fee2e2;
+}
+
+.stat h3{
+    font-size:27px;
+    margin-top:14px;
+}
+
+.stat p{
+    font-size:13px;
+    color:#6b7280;
+    margin-top:4px;
+}
+
+/* ===== DASHBOARD GRID ===== */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    margin-bottom:24px;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:22px;
+    border:1px solid #eef2f7;
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-header h2{
+    font-size:17px;
+}
+
+.card-header span{
+    font-size:12px;
+    color:#6b7280;
+}
+
+/* ===== CHART ===== */
+
+.chart{
+    height:230px;
+    display:flex;
+    align-items:flex-end;
+    gap:16px;
+    padding:15px 10px 0;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.bar-group{
+    flex:1;
+    height:100%;
+    display:flex;
+    align-items:flex-end;
+    gap:5px;
+}
+
+.bar{
+    flex:1;
+    border-radius:6px 6px 0 0;
+    background:#3b82f6;
+}
+
+.bar.send{
+    background:#10b981;
+}
+
+.month{
+    font-size:11px;
+    color:#6b7280;
+    text-align:center;
+    margin-top:8px;
+}
+
+/* ===== STATUS ===== */
+
+.status-list{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.status-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.status-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+}
+
+.dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+}
+
+.status-number{
+    font-weight:bold;
+}
+
+/* ===== TABLE ===== */
+
+.table-card{
+    background:white;
+    border-radius:14px;
+    padding:22px;
+    border:1px solid #eef2f7;
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    padding:13px;
+    background:#f8fafc;
+    font-size:13px;
+    color:#475569;
+}
+
+td{
+    padding:14px 13px;
+    border-bottom:1px solid #eef2f7;
+    font-size:13px;
+}
+
+.badge{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+.badge-red{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.badge-yellow{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.badge-green{
+    background:#dcfce7;
+    color:#166534;
+}
+
+/* ===== QUICK MENU ===== */
+
+.quick{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:24px;
+}
+
+.quick-btn{
+    background:white;
+    border:1px solid #e5e7eb;
+    padding:18px;
+    border-radius:12px;
+    cursor:pointer;
+    text-align:center;
+    transition:.2s;
+}
+
+.quick-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.quick-btn .big{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.quick-btn strong{
+    display:block;
+    font-size:14px;
+}
+
+.quick-btn span{
+    font-size:11px;
+    color:#6b7280;
+}
+
+/* ===== FOOTER ===== */
+
+.footer{
+    text-align:center;
+    padding:25px;
+    color:#94a3b8;
+    font-size:12px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:10px 8px;
+    }
+
+    .logo h2,
+    .logo p,
+    .menu-item span{
+        display:none;
+    }
+
+    .logo-circle{
+        width:45px;
+        height:45px;
+        font-size:20px;
+    }
+
+    .menu-item{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:50%;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .quick{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .content{
+        padding:15px;
+    }
+
+    .table-card{
+        overflow-x:auto;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-circle">
+            วช
+        </div>
+
+        <h2>เทศบาลตำบลเวียงชัย</h2>
+
+        <p>ระบบงานสารบรรณอิเล็กทรอนิกส์</p>
+
+    </div>
+
+    <div class="menu">
+
+        <div class="menu-item active">
+            <div class="icon">🏠</div>
+            <span>หน้าหลัก</span>
+        </div>
+
+        <div class="menu-item">
+            <div class="icon">📥</div>
+            <span>หนังสือรับ</span>
+        </div>
+
+        <div class="menu-item">
+            <div class="icon">📤</div>
+            <span>หนังสือส่ง</span>
+        </div>
+
+        <div class="menu-item">
+            <div class="icon">📋</div>
+            <span>ทะเบียนหนังสือ</span>
+        </div>
+
+        <div class="menu-item">
+            <div class="icon">🔎</div>
+            <span>ค้นหาเอกสาร</span>
+        </div>
+
+        <div class="menu-item">
+            <div class="icon">📝</div>
+            <span>เกษียณหนังสือ</span>
+        </div>
+
+        <div class="menu-item">
+            <div class="icon">📊</div>
+            <span>รายงาน / สถิติ</span>
+        </div>
+
+        <div class="menu-item">
+            <div class="icon">👥</div>
+            <span>ผู้ใช้งาน</span>
+        </div>
+
+        <div class="menu-item">
+            <div class="icon">⚙️</div>
+            <span>ตั้งค่าระบบ</span>
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="search">
+            🔎 &nbsp; ค้นหาเลขหนังสือ เรื่อง หน่วยงาน...
+        </div>
+
+        <div class="user">
+
+            <div class="avatar">
+                จ
+            </div>
+
+            <div class="user-info">
+                <strong>เจ้าหน้าที่สารบรรณ</strong>
+                <span>สำนักปลัดเทศบาล</span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+        <div class="page-title">
+
+            <h1>Dashboard</h1>
+
+            <p>
+                ภาพรวมระบบงานสารบรรณอิเล็กทรอนิกส์
+                เทศบาลตำบลเวียงชัย
+            </p>
+
+        </div>
+
+
+        <!-- STAT -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <div>
+                        <p>หนังสือรับทั้งหมด</p>
+                        <h3>1,258</h3>
+                    </div>
+
+                    <div class="stat-icon blue">
+                        📥
+                    </div>
+
+                </div>
+
+                <p>ปีงบประมาณปัจจุบัน</p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <div>
+                        <p>หนังสือส่งทั้งหมด</p>
+                        <h3>846</h3>
+                    </div>
+
+                    <div class="stat-icon green">
+                        📤
+                    </div>
+
+                </div>
+
+                <p>ปีงบประมาณปัจจุบัน</p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <div>
+                        <p>รอดำเนินการ</p>
+                        <h3>27</h3>
+                    </div>
+
+                    <div class="stat-icon orange">
+                        ⏳
+                    </div>
+
+                </div>
+
+                <p>รายการ</p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <div>
+                        <p>กำลังดำเนินการ</p>
+                        <h3>41</h3>
+                    </div>
+
+                    <div class="stat-icon purple">
+                        🔄
+                    </div>
+
+                </div>
+
+                <p>รายการ</p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <div>
+                        <p>หนังสือด่วน</p>
+                        <h3>12</h3>
+                    </div>
+
+                    <div class="stat-icon red">
+                        🚨
+                    </div>
+
+                </div>
+
+                <p>ต้องดำเนินการโดยเร็ว</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTION -->
+
+        <div class="quick">
+
+            <div class="quick-btn">
+
+                <div class="big">📥</div>
+
+                <strong>ลงทะเบียนหนังสือรับ</strong>
+
+                <span>สร้างเลขทะเบียนรับอัตโนมัติ</span>
+
+            </div>
+
+
+            <div class="quick-btn">
+
+                <div class="big">📤</div>
+
+                <strong>ลงทะเบียนหนังสือส่ง</strong>
+
+                <span>จัดทำทะเบียนหนังสือส่ง</span>
+
+            </div>
+
+
+            <div class="quick-btn">
+
+                <div class="big">📝</div>
+
+                <strong>เกษียณหนังสือ</strong>
+
+                <span>จัดทำและพิมพ์เกษียณ</span>
+
+            </div>
+
+
+            <div class="quick-btn">
+
+                <div class="big">🖨️</div>
+
+                <strong>พิมพ์ตรารับ</strong>
+
+                <span>สร้างตรารับจากทะเบียน</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- CHART -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>สถิติหนังสือรับ – ส่ง</h2>
+
+                    <span>ปี 2569</span>
+
+                </div>
+
+
+                <div class="chart">
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:55%"></div>
+                        <div class="bar send" style="height:40%"></div>
+
+                    </div>
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:65%"></div>
+                        <div class="bar send" style="height:45%"></div>
+
+                    </div>
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:48%"></div>
+                        <div class="bar send" style="height:42%"></div>
+
+                    </div>
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:72%"></div>
+                        <div class="bar send" style="height:55%"></div>
+
+                    </div>
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:82%"></div>
+                        <div class="bar send" style="height:60%"></div>
+
+                    </div>
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:70%"></div>
+                        <div class="bar send" style="height:63%"></div>
+
+                    </div>
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:88%"></div>
+                        <div class="bar send" style="height:70%"></div>
+
+                    </div>
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:76%"></div>
+                        <div class="bar send" style="height:68%"></div>
+
+                    </div>
+
+                    <div class="bar-group">
+
+                        <div class="bar" style="height:92%"></div>
+                        <div class="bar send" style="height:80%"></div>
+
+                    </div>
+
+                </div>
+
+                <div style="display:flex;justify-content:space-around;margin-top:5px;">
+
+                    <span class="month">ม.ค.</span>
+                    <span class="month">ก.พ.</span>
+                    <span class="month">มี.ค.</span>
+                    <span class="month">เม.ย.</span>
+                    <span class="month">พ.ค.</span>
+                    <span class="month">มิ.ย.</span>
+                    <span class="month">ก.ค.</span>
+                    <span class="month">ส.ค.</span>
+                    <span class="month">ก.ย.</span>
+
+                </div>
+
+                <div style="margin-top:15px;font-size:12px;color:#6b7280">
+
+                    🔵 หนังสือรับ &nbsp;&nbsp;&nbsp;
+                    🟢 หนังสือส่ง
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>สถานะหนังสือ</h2>
+
+                    <span>ทั้งหมด</span>
+
+                </div>
+
+
+                <div class="status-list">
+
+                    <div class="status-row">
+
+                        <div class="status-left">
+
+                            <div class="dot" style="background:#10b981"></div>
+
+                            ดำเนินการแล้ว
+
+                        </div>
+
+                        <div class="status-number">
+                            1,190
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-left">
+
+                            <div class="dot" style="background:#8b5cf6"></div>
+
+                            กำลังดำเนินการ
+
+                        </div>
+
+                        <div class="status-number">
+                            41
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-left">
+
+                            <div class="dot" style="background:#f59e0b"></div>
+
+                            รอดำเนินการ
+
+                        </div>
+
+                        <div class="status-number">
+                            27
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-left">
+
+                            <div class="dot" style="background:#ef4444"></div>
+
+                            ด่วน
+
+                        </div>
+
+                        <div class="status-number">
+                            12
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-card">
+
+            <div class="card-header">
+
+                <h2>หนังสือรับล่าสุด</h2>
+
+                <span>ดูทั้งหมด →</span>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>เลขทะเบียนรับ</th>
+                        <th>เลขที่หนังสือ</th>
+                        <th>เรื่อง</th>
+                        <th>หน่วยงาน</th>
+                        <th>วันที่รับ</th>
+                        <th>สถานะ</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td><strong>1258</strong></td>
+
+                        <td>ชร 0001/2569</td>
+
+                        <td>ขอความอนุเคราะห์ข้อมูล</td>
+
+                        <td>จังหวัดเชียงราย</td>
+
+                        <td>28/09/2569</td>
+
+                        <td>
+                            <span class="badge badge-red">
+                                ด่วน
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td><strong>1257</strong></td>
+
+                        <td>วช 045/2569</td>
+
+                        <td>ขอเชิญประชุม</td>
+
+                        <td>อำเภอเวียงชัย</td>
+
+                        <td>28/09/2569</td>
+
+                        <td>
+                            <span class="badge badge-yellow">
+                                กำลังดำเนินการ
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td><strong>1256</strong></td>
+
+                        <td>กค 112/2569</td>
+
+                        <td>แจ้งผลการดำเนินงาน</td>
+
+                        <td>กองคลัง</td>
+
+                        <td>27/09/2569</td>
+
+                        <td>
+                            <span class="badge badge-green">
+                                ดำเนินการแล้ว
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td><strong>1255</strong></td>
+
+                        <td>ชย 078/2569</td>
+
+                        <td>ขอข้อมูลโครงการ</td>
+
+                        <td>กองช่าง</td>
+
+                        <td>27/09/2569</td>
+
+                        <td>
+                            <span class="badge badge-yellow">
+                                กำลังดำเนินการ
+                            </span>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="footer">
+
+            ระบบงานสารบรรณอิเล็กทรอนิกส์
+            เทศบาลตำบลเวียงชัย
+            © 2569
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

@@ -1,616 +1,1219 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ระบบงานสารบรรณอิเล็กทรอนิกส์ | เทศบาลตำบลเวียงชัย</title>
-       <link rel="stylesheet" href="css/style.css">
+    <title>
+        ระบบงานสารบรรณอิเล็กทรอนิกส์ | เทศบาลตำบลเวียงชัย
+    </title>
+
+    <meta
+        name="description"
+        content="ระบบงานสารบรรณอิเล็กทรอนิกส์ เทศบาลตำบลเวียงชัย"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- =========================================================
+     APP
+========================================================= -->
 
-<aside class="sidebar">
+<div class="app">
 
-    <div class="logo">
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
 
-        <div class="logo-circle">
-            วช
-        </div>
+    <aside class="sidebar" id="sidebar">
 
-        <h2>เทศบาลตำบลเวียงชัย</h2>
+        <!-- BRAND -->
+        <div class="sidebar-brand">
 
-        <p>ระบบงานสารบรรณอิเล็กทรอนิกส์</p>
-
-    </div>
-
-    <div class="menu">
-
-        <div class="menu-item active">
-            <div class="icon">🏠</div>
-            <span>หน้าหลัก</span>
-        </div>
-
-        <div class="menu-item">
-            <div class="icon">📥</div>
-            <span>หนังสือรับ</span>
-        </div>
-
-        <div class="menu-item">
-            <div class="icon">📤</div>
-            <span>หนังสือส่ง</span>
-        </div>
-
-        <div class="menu-item">
-            <div class="icon">📋</div>
-            <span>ทะเบียนหนังสือ</span>
-        </div>
-
-        <div class="menu-item">
-            <div class="icon">🔎</div>
-            <span>ค้นหาเอกสาร</span>
-        </div>
-
-        <div class="menu-item">
-            <div class="icon">📝</div>
-            <span>เกษียณหนังสือ</span>
-        </div>
-
-        <div class="menu-item">
-            <div class="icon">📊</div>
-            <span>รายงาน / สถิติ</span>
-        </div>
-
-        <div class="menu-item">
-            <div class="icon">👥</div>
-            <span>ผู้ใช้งาน</span>
-        </div>
-
-        <div class="menu-item">
-            <div class="icon">⚙️</div>
-            <span>ตั้งค่าระบบ</span>
-        </div>
-
-    </div>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-    <!-- TOPBAR -->
-
-    <header class="topbar">
-
-        <div class="search">
-            🔎 &nbsp; ค้นหาเลขหนังสือ เรื่อง หน่วยงาน...
-        </div>
-
-        <div class="user">
-
-            <div class="avatar">
-                จ
+            <div class="brand-logo">
+                วช
             </div>
 
-            <div class="user-info">
-                <strong>เจ้าหน้าที่สารบรรณ</strong>
-                <span>สำนักปลัดเทศบาล</span>
+            <div class="brand-text">
+                <strong>เทศบาลตำบลเวียงชัย</strong>
+                <span>ระบบงานสารบรรณอิเล็กทรอนิกส์</span>
             </div>
 
         </div>
 
-    </header>
+
+        <!-- SIDEBAR MENU -->
+        <nav class="sidebar-nav">
+
+            <!-- MAIN -->
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    เมนูหลัก
+                </div>
+
+                <a href="#" class="nav-item active">
+
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 11.5L12 4l9 7.5"/>
+                            <path d="M5 10.5V20h14v-9.5"/>
+                            <path d="M9 20v-5h6v5"/>
+                        </svg>
+                    </span>
+
+                    <span>หน้าหลัก</span>
+
+                </a>
+
+            </div>
 
 
-    <!-- CONTENT -->
+            <!-- DOCUMENT -->
+            <div class="nav-section">
 
-    <section class="content">
+                <div class="nav-section-title">
+                    งานสารบรรณ
+                </div>
 
-        <div class="page-title">
+                <a href="#" class="nav-item">
 
-            <h1>Dashboard</h1>
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 4h10l4 4v12H5z"/>
+                            <path d="M15 4v5h4"/>
+                            <path d="M8 13h8"/>
+                            <path d="M8 16h6"/>
+                        </svg>
+                    </span>
 
-            <p>
-                ภาพรวมระบบงานสารบรรณอิเล็กทรอนิกส์
-                เทศบาลตำบลเวียงชัย
-            </p>
+                    <span>หนังสือรับ</span>
+
+                </a>
+
+
+                <a href="#" class="nav-item">
+
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 4h10l4 4v12H5z"/>
+                            <path d="M15 4v5h4"/>
+                            <path d="M8 13h8"/>
+                            <path d="M8 16h5"/>
+                            <path d="M14 17l3 3"/>
+                            <path d="M17 20l3-3"/>
+                        </svg>
+                    </span>
+
+                    <span>หนังสือส่ง</span>
+
+                </a>
+
+
+                <a href="#" class="nav-item">
+
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="4" y="4" width="16" height="16" rx="2"/>
+                            <path d="M8 9h8"/>
+                            <path d="M8 13h8"/>
+                            <path d="M8 17h5"/>
+                        </svg>
+                    </span>
+
+                    <span>ทะเบียนหนังสือ</span>
+
+                </a>
+
+
+                <a href="#" class="nav-item">
+
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="10.5" cy="10.5" r="5.5"/>
+                            <path d="M15 15l5 5"/>
+                        </svg>
+                    </span>
+
+                    <span>ค้นหาเอกสาร</span>
+
+                </a>
+
+
+                <a href="#" class="nav-item">
+
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 19h14"/>
+                            <path d="M7 16l9-9 3 3-9 9H7z"/>
+                            <path d="M14 8l2 2"/>
+                        </svg>
+                    </span>
+
+                    <span>เกษียนหนังสือ</span>
+
+                </a>
+
+            </div>
+
+
+            <!-- REPORT -->
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    รายงาน
+                </div>
+
+                <a href="#" class="nav-item">
+
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 20V10"/>
+                            <path d="M12 20V4"/>
+                            <path d="M19 20v-7"/>
+                        </svg>
+                    </span>
+
+                    <span>รายงาน / สถิติ</span>
+
+                </a>
+
+            </div>
+
+
+            <!-- ADMIN -->
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    การจัดการระบบ
+                </div>
+
+                <a href="#" class="nav-item">
+
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="3"/>
+                            <path d="M5 20c0-4 3-6 7-6s7 2 7 6"/>
+                        </svg>
+                    </span>
+
+                    <span>ผู้ใช้งาน</span>
+
+                </a>
+
+
+                <a href="#" class="nav-item">
+
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 3v3"/>
+                            <path d="M12 18v3"/>
+                            <path d="M3 12h3"/>
+                            <path d="M18 12h3"/>
+                            <circle cx="12" cy="12" r="4"/>
+                        </svg>
+                    </span>
+
+                    <span>ตั้งค่าระบบ</span>
+
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <!-- SIDEBAR FOOTER -->
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>ระบบออนไลน์</strong>
+                    <small>Wiang Chai E-Document</small>
+                </div>
+            </div>
 
         </div>
 
+    </aside>
 
-        <!-- STAT -->
 
-        <div class="stats">
+    <!-- =====================================================
+         MAIN AREA
+    ====================================================== -->
 
-            <div class="stat">
+    <main class="main">
 
-                <div class="stat-top">
+        <!-- TOPBAR -->
+        <header class="topbar">
 
-                    <div>
-                        <p>หนังสือรับทั้งหมด</p>
-                        <h3>1,258</h3>
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    aria-label="เปิดเมนู"
+                >
+                    ☰
+                </button>
+
+
+                <div class="search-box">
+
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="10.5" cy="10.5" r="5.5"/>
+                        <path d="M15 15l5 5"/>
+                    </svg>
+
+                    <input
+                        type="text"
+                        placeholder="ค้นหาเลขหนังสือ เรื่อง หน่วยงาน..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="user-area">
+
+                <div class="user-info">
+
+                    <strong>เจ้าหน้าที่สารบรรณ</strong>
+
+                    <span>
+                        สำนักปลัดเทศบาล
+                    </span>
+
+                </div>
+
+
+                <div class="user-avatar">
+                    จ
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <div class="content">
+
+
+            <!-- PAGE HEADER -->
+            <section class="page-header">
+
+                <div>
+
+                    <div class="breadcrumb">
+                        ระบบงานสารบรรณ
+                        <span>/</span>
+                        หน้าหลัก
                     </div>
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                    <p>
+                        ภาพรวมระบบงานสารบรรณอิเล็กทรอนิกส์
+                        เทศบาลตำบลเวียงชัย
+                    </p>
+
+                </div>
+
+
+                <div class="header-date">
+
+                    <span>วันที่</span>
+
+                    <strong id="currentDate">
+                        --
+                    </strong>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 STAT CARDS
+            ================================================== -->
+
+            <section class="stats-grid">
+
+
+                <!-- CARD 1 -->
+                <div class="stat-card">
 
                     <div class="stat-icon blue">
-                        📥
+
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 4h10l4 4v12H5z"/>
+                            <path d="M15 4v5h4"/>
+                            <path d="M8 13h8"/>
+                            <path d="M8 16h5"/>
+                        </svg>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            หนังสือรับทั้งหมด
+                        </span>
+
+                        <strong>
+                            1,258
+                        </strong>
+
+                        <small>
+                            เอกสารทั้งหมดในระบบ
+                        </small>
+
                     </div>
 
                 </div>
 
-                <p>ปีงบประมาณปัจจุบัน</p>
-
-            </div>
 
 
-            <div class="stat">
-
-                <div class="stat-top">
-
-                    <div>
-                        <p>หนังสือส่งทั้งหมด</p>
-                        <h3>846</h3>
-                    </div>
+                <!-- CARD 2 -->
+                <div class="stat-card">
 
                     <div class="stat-icon green">
-                        📤
+
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 4h10l4 4v12H5z"/>
+                            <path d="M15 4v5h4"/>
+                            <path d="M8 13h6"/>
+                            <path d="M14 17l3 3 4-5"/>
+                        </svg>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            หนังสือส่งทั้งหมด
+                        </span>
+
+                        <strong>
+                            846
+                        </strong>
+
+                        <small>
+                            เอกสารที่ส่งออก
+                        </small>
+
                     </div>
 
                 </div>
 
-                <p>ปีงบประมาณปัจจุบัน</p>
-
-            </div>
 
 
-            <div class="stat">
-
-                <div class="stat-top">
-
-                    <div>
-                        <p>รอดำเนินการ</p>
-                        <h3>27</h3>
-                    </div>
+                <!-- CARD 3 -->
+                <div class="stat-card">
 
                     <div class="stat-icon orange">
-                        ⏳
+
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="8"/>
+                            <path d="M12 7v5l3 2"/>
+                        </svg>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            กำลังดำเนินการ
+                        </span>
+
+                        <strong>
+                            27
+                        </strong>
+
+                        <small>
+                            รายการที่รอดำเนินการ
+                        </small>
+
                     </div>
 
                 </div>
 
-                <p>รายการ</p>
-
-            </div>
 
 
-            <div class="stat">
-
-                <div class="stat-top">
-
-                    <div>
-                        <p>กำลังดำเนินการ</p>
-                        <h3>41</h3>
-                    </div>
+                <!-- CARD 4 -->
+                <div class="stat-card">
 
                     <div class="stat-icon purple">
-                        🔄
+
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/>
+                            <path d="M12 8v4"/>
+                            <circle cx="12" cy="15.5" r=".7"/>
+                        </svg>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            หนังสือด่วน
+                        </span>
+
+                        <strong>
+                            41
+                        </strong>
+
+                        <small>
+                            รายการเร่งด่วน
+                        </small>
+
                     </div>
 
                 </div>
 
-                <p>รายการ</p>
-
-            </div>
 
 
-            <div class="stat">
-
-                <div class="stat-top">
-
-                    <div>
-                        <p>หนังสือด่วน</p>
-                        <h3>12</h3>
-                    </div>
+                <!-- CARD 5 -->
+                <div class="stat-card urgent">
 
                     <div class="stat-icon red">
-                        🚨
-                    </div>
 
-                </div>
-
-                <p>ต้องดำเนินการโดยเร็ว</p>
-
-            </div>
-
-        </div>
-
-
-        <!-- QUICK ACTION -->
-
-        <div class="quick">
-
-            <div class="quick-btn">
-
-                <div class="big">📥</div>
-
-                <strong>ลงทะเบียนหนังสือรับ</strong>
-
-                <span>สร้างเลขทะเบียนรับอัตโนมัติ</span>
-
-            </div>
-
-
-            <div class="quick-btn">
-
-                <div class="big">📤</div>
-
-                <strong>ลงทะเบียนหนังสือส่ง</strong>
-
-                <span>จัดทำทะเบียนหนังสือส่ง</span>
-
-            </div>
-
-
-            <div class="quick-btn">
-
-                <div class="big">📝</div>
-
-                <strong>เกษียณหนังสือ</strong>
-
-                <span>จัดทำและพิมพ์เกษียณ</span>
-
-            </div>
-
-
-            <div class="quick-btn">
-
-                <div class="big">🖨️</div>
-
-                <strong>พิมพ์ตรารับ</strong>
-
-                <span>สร้างตรารับจากทะเบียน</span>
-
-            </div>
-
-        </div>
-
-
-        <!-- DASHBOARD -->
-
-        <div class="dashboard-grid">
-
-
-            <!-- CHART -->
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <h2>สถิติหนังสือรับ – ส่ง</h2>
-
-                    <span>ปี 2569</span>
-
-                </div>
-
-
-                <div class="chart">
-
-                    <div class="bar-group">
-
-                        <div class="bar" style="height:55%"></div>
-                        <div class="bar send" style="height:40%"></div>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 4l9 16H3z"/>
+                            <path d="M12 9v5"/>
+                            <circle cx="12" cy="17" r=".7"/>
+                        </svg>
 
                     </div>
 
-                    <div class="bar-group">
+                    <div class="stat-content">
 
-                        <div class="bar" style="height:65%"></div>
-                        <div class="bar send" style="height:45%"></div>
+                        <span>
+                            ต้องดำเนินการโดยเร็ว
+                        </span>
 
-                    </div>
-
-                    <div class="bar-group">
-
-                        <div class="bar" style="height:48%"></div>
-                        <div class="bar send" style="height:42%"></div>
-
-                    </div>
-
-                    <div class="bar-group">
-
-                        <div class="bar" style="height:72%"></div>
-                        <div class="bar send" style="height:55%"></div>
-
-                    </div>
-
-                    <div class="bar-group">
-
-                        <div class="bar" style="height:82%"></div>
-                        <div class="bar send" style="height:60%"></div>
-
-                    </div>
-
-                    <div class="bar-group">
-
-                        <div class="bar" style="height:70%"></div>
-                        <div class="bar send" style="height:63%"></div>
-
-                    </div>
-
-                    <div class="bar-group">
-
-                        <div class="bar" style="height:88%"></div>
-                        <div class="bar send" style="height:70%"></div>
-
-                    </div>
-
-                    <div class="bar-group">
-
-                        <div class="bar" style="height:76%"></div>
-                        <div class="bar send" style="height:68%"></div>
-
-                    </div>
-
-                    <div class="bar-group">
-
-                        <div class="bar" style="height:92%"></div>
-                        <div class="bar send" style="height:80%"></div>
-
-                    </div>
-
-                </div>
-
-                <div style="display:flex;justify-content:space-around;margin-top:5px;">
-
-                    <span class="month">ม.ค.</span>
-                    <span class="month">ก.พ.</span>
-                    <span class="month">มี.ค.</span>
-                    <span class="month">เม.ย.</span>
-                    <span class="month">พ.ค.</span>
-                    <span class="month">มิ.ย.</span>
-                    <span class="month">ก.ค.</span>
-                    <span class="month">ส.ค.</span>
-                    <span class="month">ก.ย.</span>
-
-                </div>
-
-                <div style="margin-top:15px;font-size:12px;color:#6b7280">
-
-                    🔵 หนังสือรับ &nbsp;&nbsp;&nbsp;
-                    🟢 หนังสือส่ง
-
-                </div>
-
-            </div>
-
-
-            <!-- STATUS -->
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <h2>สถานะหนังสือ</h2>
-
-                    <span>ทั้งหมด</span>
-
-                </div>
-
-
-                <div class="status-list">
-
-                    <div class="status-row">
-
-                        <div class="status-left">
-
-                            <div class="dot" style="background:#10b981"></div>
-
-                            ดำเนินการแล้ว
-
-                        </div>
-
-                        <div class="status-number">
-                            1,190
-                        </div>
-
-                    </div>
-
-
-                    <div class="status-row">
-
-                        <div class="status-left">
-
-                            <div class="dot" style="background:#8b5cf6"></div>
-
-                            กำลังดำเนินการ
-
-                        </div>
-
-                        <div class="status-number">
-                            41
-                        </div>
-
-                    </div>
-
-
-                    <div class="status-row">
-
-                        <div class="status-left">
-
-                            <div class="dot" style="background:#f59e0b"></div>
-
-                            รอดำเนินการ
-
-                        </div>
-
-                        <div class="status-number">
-                            27
-                        </div>
-
-                    </div>
-
-
-                    <div class="status-row">
-
-                        <div class="status-left">
-
-                            <div class="dot" style="background:#ef4444"></div>
-
-                            ด่วน
-
-                        </div>
-
-                        <div class="status-number">
+                        <strong>
                             12
+                        </strong>
+
+                        <small>
+                            รายการที่ต้องติดตาม
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 QUICK ACTION
+            ================================================== -->
+
+            <section class="section-block">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            QUICK ACTION
+                        </span>
+
+                        <h2>
+                            การทำงานด่วน
+                        </h2>
+
+                        <p>
+                            เลือกงานที่ต้องการดำเนินการ
+                        </p>
+
+                    </div>
+
+                    <a href="#" class="view-all">
+                        ดูทั้งหมด
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+
+
+                <div class="quick-grid">
+
+
+                    <!-- QUICK 1 -->
+                    <a href="#" class="quick-card">
+
+                        <div class="quick-icon blue">
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 4h10l4 4v12H5z"/>
+                                <path d="M15 4v5h4"/>
+                                <path d="M12 12v6"/>
+                                <path d="M9 15l3 3 3-3"/>
+                            </svg>
+
+                        </div>
+
+                        <div class="quick-content">
+
+                            <h3>
+                                ลงทะเบียนหนังสือรับ
+                            </h3>
+
+                            <p>
+                                สร้างเลขทะเบียนรับอัตโนมัติ
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- QUICK 2 -->
+                    <a href="#" class="quick-card">
+
+                        <div class="quick-icon green">
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 4h10l4 4v12H5z"/>
+                                <path d="M15 4v5h4"/>
+                                <path d="M9 15h7"/>
+                                <path d="M13 12l3 3-3 3"/>
+                            </svg>
+
+                        </div>
+
+                        <div class="quick-content">
+
+                            <h3>
+                                ลงทะเบียนหนังสือส่ง
+                            </h3>
+
+                            <p>
+                                จัดทำทะเบียนหนังสือส่ง
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- QUICK 3 -->
+                    <a href="#" class="quick-card">
+
+                        <div class="quick-icon orange">
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 19h14"/>
+                                <path d="M7 16l9-9 3 3-9 9H7z"/>
+                                <path d="M14 8l2 2"/>
+                            </svg>
+
+                        </div>
+
+                        <div class="quick-content">
+
+                            <h3>
+                                เกษียนหนังสือ
+                            </h3>
+
+                            <p>
+                                จัดทำและพิมพ์เกษียน
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- QUICK 4 -->
+                    <a href="#" class="quick-card">
+
+                        <div class="quick-icon purple">
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M6 3h12v18H6z"/>
+                                <path d="M9 7h6"/>
+                                <path d="M9 11h6"/>
+                                <path d="M9 15h4"/>
+                            </svg>
+
+                        </div>
+
+                        <div class="quick-content">
+
+                            <h3>
+                                พิมพ์ตรารับ
+                            </h3>
+
+                            <p>
+                                สร้างตรารับจากทะเบียน
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 MAIN GRID
+            ================================================== -->
+
+            <section class="dashboard-grid">
+
+
+                <!-- LEFT -->
+                <div class="dashboard-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="section-kicker">
+                                DOCUMENT
+                            </span>
+
+                            <h2>
+                                สถานะหนังสือ
+                            </h2>
+
+                        </div>
+
+                        <button class="more-btn">
+                            ⋮
+                        </button>
+
+                    </div>
+
+
+                    <div class="status-list">
+
+
+                        <div class="status-row">
+
+                            <div class="status-label">
+
+                                <span class="status-dot blue"></span>
+
+                                <span>
+                                    รับเรื่องแล้ว
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                18
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+                            <span style="width: 72%"></span>
+                        </div>
+
+
+
+                        <div class="status-row">
+
+                            <div class="status-label">
+
+                                <span class="status-dot orange"></span>
+
+                                <span>
+                                    อยู่ระหว่างดำเนินการ
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                27
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+                            <span style="width: 48%"></span>
+                        </div>
+
+
+
+                        <div class="status-row">
+
+                            <div class="status-label">
+
+                                <span class="status-dot green"></span>
+
+                                <span>
+                                    ดำเนินการเสร็จแล้ว
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                64
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+                            <span style="width: 86%"></span>
+                        </div>
+
+
+
+                        <div class="status-row">
+
+                            <div class="status-label">
+
+                                <span class="status-dot red"></span>
+
+                                <span>
+                                    ต้องติดตาม
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                12
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+                            <span style="width: 22%"></span>
                         </div>
 
                     </div>
 
                 </div>
 
-            </div>
-
-        </div>
 
 
-        <!-- TABLE -->
+                <!-- RIGHT -->
+                <div class="dashboard-panel">
 
-        <div class="table-card">
+                    <div class="panel-header">
 
-            <div class="card-header">
+                        <div>
 
-                <h2>หนังสือรับล่าสุด</h2>
+                            <span class="section-kicker">
+                                RECENT
+                            </span>
 
-                <span>ดูทั้งหมด →</span>
+                            <h2>
+                                หนังสือล่าสุด
+                            </h2>
 
-            </div>
+                        </div>
 
+                        <a href="#" class="view-all">
+                            ดูทั้งหมด →
+                        </a>
 
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>เลขทะเบียนรับ</th>
-                        <th>เลขที่หนังสือ</th>
-                        <th>เรื่อง</th>
-                        <th>หน่วยงาน</th>
-                        <th>วันที่รับ</th>
-                        <th>สถานะ</th>
-
-                    </tr>
-
-                </thead>
+                    </div>
 
 
-                <tbody>
+                    <div class="document-list">
 
-                    <tr>
 
-                        <td><strong>1258</strong></td>
+                        <a href="#" class="document-item">
 
-                        <td>ชร 0001/2569</td>
+                            <div class="document-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M5 4h10l4 4v12H5z"/>
+                                    <path d="M15 4v5h4"/>
+                                </svg>
+                            </div>
 
-                        <td>ขอความอนุเคราะห์ข้อมูล</td>
+                            <div class="document-info">
 
-                        <td>จังหวัดเชียงราย</td>
+                                <strong>
+                                    วช 001/2569
+                                </strong>
 
-                        <td>28/09/2569</td>
+                                <span>
+                                    หนังสือแจ้งจากหน่วยงานภายนอก
+                                </span>
 
-                        <td>
-                            <span class="badge badge-red">
+                            </div>
+
+                            <span class="badge received">
+                                รับแล้ว
+                            </span>
+
+                        </a>
+
+
+
+                        <a href="#" class="document-item">
+
+                            <div class="document-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M5 4h10l4 4v12H5z"/>
+                                    <path d="M15 4v5h4"/>
+                                </svg>
+                            </div>
+
+                            <div class="document-info">
+
+                                <strong>
+                                    วช 002/2569
+                                </strong>
+
+                                <span>
+                                    หนังสือขอความอนุเคราะห์
+                                </span>
+
+                            </div>
+
+                            <span class="badge process">
+                                ดำเนินการ
+                            </span>
+
+                        </a>
+
+
+
+                        <a href="#" class="document-item">
+
+                            <div class="document-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M5 4h10l4 4v12H5z"/>
+                                    <path d="M15 4v5h4"/>
+                                </svg>
+                            </div>
+
+                            <div class="document-info">
+
+                                <strong>
+                                    วช 003/2569
+                                </strong>
+
+                                <span>
+                                    หนังสือราชการทั่วไป
+                                </span>
+
+                            </div>
+
+                            <span class="badge urgent">
                                 ด่วน
                             </span>
-                        </td>
 
-                    </tr>
+                        </a>
 
 
-                    <tr>
 
-                        <td><strong>1257</strong></td>
+                        <a href="#" class="document-item">
 
-                        <td>วช 045/2569</td>
+                            <div class="document-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M5 4h10l4 4v12H5z"/>
+                                    <path d="M15 4v5h4"/>
+                                </svg>
+                            </div>
 
-                        <td>ขอเชิญประชุม</td>
+                            <div class="document-info">
 
-                        <td>อำเภอเวียงชัย</td>
+                                <strong>
+                                    วช 004/2569
+                                </strong>
 
-                        <td>28/09/2569</td>
+                                <span>
+                                    หนังสือเชิญประชุม
+                                </span>
 
-                        <td>
-                            <span class="badge badge-yellow">
-                                กำลังดำเนินการ
+                            </div>
+
+                            <span class="badge done">
+                                เสร็จแล้ว
                             </span>
-                        </td>
 
-                    </tr>
+                        </a>
 
+                    </div>
 
-                    <tr>
+                </div>
 
-                        <td><strong>1256</strong></td>
-
-                        <td>กค 112/2569</td>
-
-                        <td>แจ้งผลการดำเนินงาน</td>
-
-                        <td>กองคลัง</td>
-
-                        <td>27/09/2569</td>
-
-                        <td>
-                            <span class="badge badge-green">
-                                ดำเนินการแล้ว
-                            </span>
-                        </td>
-
-                    </tr>
+            </section>
 
 
-                    <tr>
 
-                        <td><strong>1255</strong></td>
+            <!-- =================================================
+                 SYSTEM MENU
+            ================================================== -->
 
-                        <td>ชย 078/2569</td>
+            <section class="section-block">
 
-                        <td>ขอข้อมูลโครงการ</td>
+                <div class="section-heading">
 
-                        <td>กองช่าง</td>
+                    <div>
 
-                        <td>27/09/2569</td>
+                        <span class="section-kicker">
+                            SYSTEM
+                        </span>
 
-                        <td>
-                            <span class="badge badge-yellow">
-                                กำลังดำเนินการ
-                            </span>
-                        </td>
+                        <h2>
+                            เมนูงานสารบรรณ
+                        </h2>
 
-                    </tr>
+                        <p>
+                            เข้าถึงส่วนงานต่าง ๆ ของระบบ
+                        </p>
 
-                </tbody>
+                    </div>
 
-            </table>
+                </div>
+
+
+
+                <div class="system-menu-grid">
+
+
+                    <a href="#" class="system-card">
+
+                        <div class="system-card-icon blue">
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 4h10l4 4v12H5z"/>
+                                <path d="M15 4v5h4"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                หนังสือรับ
+                            </h3>
+
+                            <p>
+                                จัดการหนังสือที่รับเข้าระบบ
+                            </p>
+
+                        </div>
+
+                    </a>
+
+
+
+                    <a href="#" class="system-card">
+
+                        <div class="system-card-icon green">
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 4h10l4 4v12H5z"/>
+                                <path d="M15 4v5h4"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                หนังสือส่ง
+                            </h3>
+
+                            <p>
+                                จัดทำและควบคุมหนังสือส่ง
+                            </p>
+
+                        </div>
+
+                    </a>
+
+
+
+                    <a href="#" class="system-card">
+
+                        <div class="system-card-icon orange">
+
+                            <svg viewBox="0 0 24 24">
+                                <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                <path d="M8 9h8"/>
+                                <path d="M8 13h8"/>
+                                <path d="M8 17h5"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                ทะเบียนหนังสือ
+                            </h3>
+
+                            <p>
+                                ตรวจสอบทะเบียนและเลขหนังสือ
+                            </p>
+
+                        </div>
+
+                    </a>
+
+
+
+                    <a href="#" class="system-card">
+
+                        <div class="system-card-icon purple">
+
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="10.5" cy="10.5" r="5.5"/>
+                                <path d="M15 15l5 5"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                ค้นหาเอกสาร
+                            </h3>
+
+                            <p>
+                                ค้นหาเอกสารจากข้อมูลในระบบ
+                            </p>
+
+                        </div>
+
+                    </a>
+
+
+
+                    <a href="#" class="system-card">
+
+                        <div class="system-card-icon red">
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 4l9 16H3z"/>
+                                <path d="M12 9v5"/>
+                                <circle cx="12" cy="17" r=".7"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                รายงาน / สถิติ
+                            </h3>
+
+                            <p>
+                                ดูรายงานและสถิติการดำเนินงาน
+                            </p>
+
+                        </div>
+
+                    </a>
+
+
+
+                    <a href="#" class="system-card">
+
+                        <div class="system-card-icon gray">
+
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="8" r="3"/>
+                                <path d="M5 20c0-4 3-6 7-6s7 2 7 6"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                ผู้ใช้งาน
+                            </h3>
+
+                            <p>
+                                จัดการเจ้าหน้าที่และสิทธิ์การใช้งาน
+                            </p>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- FOOTER -->
+            <footer class="footer">
+
+                <div>
+                    ระบบงานสารบรรณอิเล็กทรอนิกส์
+                    เทศบาลตำบลเวียงชัย
+                </div>
+
+                <div>
+                    © 2026 Wiang Chai Subdistrict Municipality
+                </div>
+
+            </footer>
+
 
         </div>
 
+    </main>
 
-        <div class="footer">
+</div>
 
-            ระบบงานสารบรรณอิเล็กทรอนิกส์
-            เทศบาลตำบลเวียงชัย
-            © 2569
 
-        </div>
+<!-- MOBILE OVERLAY -->
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+></div>
 
-    </section>
 
-</main>
 <script src="js/app.js"></script>
-       
+
 </body>
 </html>

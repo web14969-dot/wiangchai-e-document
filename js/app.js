@@ -4,6 +4,21 @@
    2026
 ========================================================= */
 
+/* =====================================================
+   SUPABASE CONNECTION
+   WIANG CHAI E-DOCUMENT
+   ===================================================== */
+
+const SUPABASE_URL = "https://oplchatspdhzriljmlid.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Y0EpLZUgaSV89F73i1Y86Q_kGokgZc4";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+console.log("Supabase client connected:", !!supabaseClient);
 
 document.addEventListener("DOMContentLoaded", function () {
 

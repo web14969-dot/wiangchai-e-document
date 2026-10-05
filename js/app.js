@@ -284,4 +284,110 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
+   // =====================================================
+// LOGIN SYSTEM
+// WIANG CHAI E-DOCUMENT
+// =====================================================
+
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const loginScreen = document.getElementById("loginScreen");
+    const loginForm = document.getElementById("loginForm");
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginButton = document.getElementById("loginButton");
+    const loginMessage = document.getElementById("loginMessage");
+
+    if (!loginScreen || !loginForm) {
+        return;
+    }
+
+    // -------------------------------------------------
+    // ตรวจสอบ Session ที่มีอยู่
+    // -------------------------------------------------
+
+    const {
+        data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (session) {
+        loginScreen.style.display = "none";
+        console.log("มีผู้ใช้งานเข้าสู่ระบบอยู่แล้ว");
+    } else {
+        loginScreen.style.display = "flex";
+    }
+
+    // -------------------------------------------------
+    // LOGIN
+    // -------------------------------------------------
+
+    loginForm.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        const email = loginEmail.value.trim();
+        const password = loginPassword.value;
+
+        loginMessage.textContent = "";
+
+        loginButton.disabled = true;
+        loginButton.textContent = "กำลังเข้าสู่ระบบ...";
+
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+
+            console.error("Login error:", error);
+
+            loginMessage.textContent =
+                "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+
+            loginButton.disabled = false;
+            loginButton.textContent = "เข้าสู่ระบบ";
+
+            return;
+        }
+
+        console.log(
+            "เข้าสู่ระบบสำเร็จ:",
+            data.user.email
+        );
+
+        loginMessage.textContent = "";
+
+        loginScreen.style.display = "none";
+
+        loginButton.disabled = false;
+        loginButton.textContent = "เข้าสู่ระบบ";
+    });
+
+    // -------------------------------------------------
+    // ตรวจสอบการเปลี่ยนแปลง Session
+    // -------------------------------------------------
+
+    supabaseClient.auth.onAuthStateChange(
+        function (event, session) {
+
+            console.log(
+                "Auth state:",
+                event
+            );
+
+            if (session) {
+                loginScreen.style.display = "none";
+            } else {
+                loginScreen.style.display = "flex";
+            }
+
+        }
+    );
+
+});
+
 });

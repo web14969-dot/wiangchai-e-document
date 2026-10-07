@@ -2144,3 +2144,61 @@ input {
     }
 
 }
+
+/* =====================================================
+   LOGOUT BUTTON
+===================================================== */
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+
+    padding: 9px 12px;
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-btn svg {
+    width: 17px;
+    height: 17px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.logout-btn:hover {
+    color: #dc2626;
+    border-color: #fecaca;
+    background: #fff5f5;
+}
+
+.logout-btn:active {
+    transform: scale(0.97);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .logout-btn span {
+        display: none;
+    }
+
+    .logout-btn {
+        padding: 9px;
+    }
+
+}

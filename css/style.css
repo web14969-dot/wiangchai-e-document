@@ -1963,25 +1963,19 @@ input {
 }
 
 .login-logo {
-    width: 76px;
-    height: 76px;
-
-    margin: 0 auto 20px;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
 
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
-    border-radius: 22px;
-
-    background: #eaf3fb;
-    color: #155a9c;
-
-    font-size: 28px;
-    font-weight: 800;
-
-    box-shadow:
-        inset 0 0 0 1px rgba(21, 90, 156, 0.08);
+.login-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
 }
 
 .login-header h1 {

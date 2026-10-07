@@ -747,6 +747,75 @@ document.addEventListener(
             }
         );
 
+       // =====================================================
+// LOGOUT SYSTEM
+// =====================================================
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener("click", async function () {
+
+        const confirmLogout = confirm("ต้องการออกจากระบบหรือไม่?");
+
+        if (!confirmLogout) {
+            return;
+        }
+
+        logoutBtn.disabled = true;
+
+        try {
+
+            const { error } = await supabaseClient.auth.signOut();
+
+            if (error) {
+                throw error;
+            }
+
+            // กลับไปหน้า Login
+            loginScreen.style.display = "flex";
+
+            // ล้างรหัสผ่าน
+            if (loginPassword) {
+                loginPassword.value = "";
+            }
+
+            // ล้างข้อความแจ้งเตือน
+            if (loginMessage) {
+                loginMessage.textContent = "";
+                loginMessage.classList.remove(
+                    "error",
+                    "success"
+                );
+            }
+
+            // กลับไปช่อง Email
+            if (loginEmail) {
+                loginEmail.focus();
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+
+            alert(
+                "ไม่สามารถออกจากระบบได้ กรุณาลองใหม่อีกครั้ง"
+            );
+
+        } finally {
+
+            logoutBtn.disabled = false;
+
+        }
+
+    });
+
+}
+
 
     }
 );

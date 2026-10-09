@@ -819,3 +819,41 @@ if (logoutBtn) {
 
     }
 );
+
+
+/* =====================================================
+   ขั้นที่ 14.2: โหลดรายการหนังสือรอรับ
+   ===================================================== */
+
+async function loadIncomingDocumentDispatches() {
+    try {
+        const {
+            data: { session },
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        if (!session) {
+            console.warn("กรุณาเข้าสู่ระบบก่อนดูหนังสือรอรับ");
+            return [];
+        }
+
+        const { data, error } = await supabaseClient.rpc(
+            "get_incoming_document_dispatches"
+        );
+
+        if (error) throw error;
+
+        const documents = Array.isArray(data) ? data : [];
+
+        console.log("รายการหนังสือรอรับ:", documents);
+        return documents;
+    } catch (error) {
+        console.error(
+            "โหลดรายการหนังสือรอรับไม่สำเร็จ:",
+            error.message
+        );
+        return [];
+    }
+}

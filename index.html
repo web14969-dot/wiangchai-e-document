@@ -1261,7 +1261,52 @@
                 </div>
 
             </section>
+<!-- INCOMING DOCUMENT DISPATCHES -->
+<section class="section-block" id="incomingDispatchSection">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">INCOMING DOCUMENTS</span>
+            <h2>หนังสือรอรับจากหน่วยงานอื่น</h2>
+            <p>รายการหนังสือที่ส่งมายังหน่วยงานของคุณและยังไม่ได้กดรับ</p>
+        </div>
 
+        <button
+            type="button"
+            class="view-all"
+            id="refreshIncomingBtn"
+        >
+            ↻ โหลดรายการใหม่
+        </button>
+    </div>
+
+    <div class="dashboard-panel">
+        <div id="incomingMessage" role="status">
+            กำลังโหลดรายการหนังสือ...
+        </div>
+
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; min-width:700px;">
+                <thead>
+                    <tr>
+                        <th style="text-align:left; padding:12px;">เลขหนังสือ</th>
+                        <th style="text-align:left; padding:12px;">เรื่อง</th>
+                        <th style="text-align:left; padding:12px;">ส่งจาก</th>
+                        <th style="text-align:left; padding:12px;">วันที่ส่ง</th>
+                        <th style="text-align:left; padding:12px;">สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody id="incomingDocumentsBody">
+                    <tr>
+                        <td colspan="5" style="padding:16px;">
+                            กำลังโหลดข้อมูล...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<!-- END INCOMING DOCUMENT DISPATCHES -->
 
 
             <!-- FOOTER -->

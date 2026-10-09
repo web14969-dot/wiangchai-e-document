@@ -857,3 +857,83 @@ async function loadIncomingDocumentDispatches() {
         return [];
     }
 }
+
+
+/* =====================================================
+   ขั้นที่ 14.3: แสดงหนังสือรอรับในตารางหน้าเว็บ
+   ===================================================== */
+
+function formatThaiDateTime(value) {
+    if (!value) return "-";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) return "-";
+
+    return date.toLocaleString("th-TH", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZone: "Asia/Bangkok"
+    });
+}
+
+async function renderIncomingDocumentDispatches() {
+    const tbody = document.getElementById("incomingDocumentsBody");
+    const message = document.getElementById("incomingMessage");
+
+    if (!tbody || !message) {
+        console.warn("ไม่พบตารางหนังสือรอรับใน index.html");
+        return;
+    }
+
+    message.textContent = "กำลังโหลดรายการหนังสือ...";
+    tbody.replaceChildren();
+
+    const documents = await loadIncomingDocumentDispatches();
+
+    if (documents.length === 0) {
+        message.textContent = "ไม่มีหนังสือรอรับในขณะนี้";
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 5;
+        cell.style.padding = "16px";
+        cell.textContent = "ไม่พบรายการหนังสือที่รอรับ";
+
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+    }
+
+    message.textContent = `พบหนังสือรอรับ ${documents.length} รายการ`;
+
+    documents.forEach((doc) => {
+        const row = document.createElement("tr");
+
+        [
+            doc.document_no || "-",
+            doc.subject || "-",
+            doc.sender_name || "-",
+            formatThaiDateTime(doc.dispatched_at),
+            doc.status || "รอรับ"
+        ].forEach((value) => {
+            const cell = document.createElement("td");
+            cell.style.padding = "12px";
+            cell.style.borderTop = "1px solid #e5e7eb";
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const refreshButton = document.getElementById("refreshIncomingBtn");
+
+    if (refreshButton) {
+        refreshButton.addEventListener("click", renderIncomingDocumentDispatches);
+    }
+
+    renderIncomingDocumentDispatches();
+});

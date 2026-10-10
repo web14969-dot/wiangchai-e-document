@@ -842,12 +842,18 @@ async function renderIncomingDocumentDispatches() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const refreshButton = document.getElementById("refreshIncomingBtn");
+/* =====================================================
+   ขั้นที่ 14.4: ปุ่มโหลดรายการหนังสือรอรับ
+===================================================== */
 
-    if (refreshButton) {
-        refreshButton.addEventListener("click", renderIncomingDocumentDispatches);
-    }
+const refreshIncomingButton =
+    document.getElementById("refreshIncomingBtn");
 
-    renderIncomingDocumentDispatches();
-});
+if (refreshIncomingButton) {
+    refreshIncomingButton.addEventListener(
+        "click",
+        renderIncomingDocumentDispatches
+    );
+}
+
+

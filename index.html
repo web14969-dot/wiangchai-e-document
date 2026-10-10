@@ -1031,314 +1031,82 @@
 
                         <a href="#" class="document-item">
 
-                            <div class="document-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M5 4h10l4 4v12H5z"/>
-                                    <path d="M15 4v5h4"/>
-                                </svg>
-                            </div>
+<div id="incomingRegistrationFormContainer" hidden style="margin-top:24px;">
+    <h3>ลงทะเบียนหนังสือรับ</h3>
+
+    <form id="incomingRegistrationForm">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+
+            <div>
+                <label for="incomingSubject">เรื่องหนังสือ *</label>
+                <input id="incomingSubject" name="subject" type="text" required maxlength="500" placeholder="ระบุเรื่องหนังสือ" style="display:block;width:100%;padding:10px;margin-top:6px;">
+            </div>
+
+            <div>
+                <label for="incomingSender">จากหน่วยงาน / ผู้ส่ง *</label>
+                <input id="incomingSender" name="sender_name" type="text" required maxlength="255" placeholder="ระบุหน่วยงานหรือผู้ส่ง" style="display:block;width:100%;padding:10px;margin-top:6px;">
+            </div>
+
+            <div>
+                <label for="incomingReceivedDate">วันที่รับหนังสือ *</label>
+                <input id="incomingReceivedDate" name="received_date" type="date" required style="display:block;width:100%;padding:10px;margin-top:6px;">
+            </div>
+
+            <div>
+                <label for="incomingDocumentDate">วันที่หนังสือ</label>
+                <input id="incomingDocumentDate" name="document_date" type="date" style="display:block;width:100%;padding:10px;margin-top:6px;">
+            </div>
+
+            <div>
+                <label for="incomingReferenceNo">เลขที่หนังสือ</label>
+                <input id="incomingReferenceNo" name="reference_no" type="text" maxlength="100" placeholder="ระบุเลขที่หนังสือ" style="display:block;width:100%;padding:10px;margin-top:6px;">
+            </div>
+
+            <div>
+                <label for="incomingNotes">หมายเหตุ</label>
+                <textarea id="incomingNotes" name="notes" rows="3" placeholder="หมายเหตุเพิ่มเติม" style="display:block;width:100%;padding:10px;margin-top:6px;"></textarea>
+            </div>
 
-                            <div class="document-info">
-
-                                <strong>
-                                    วช 004/2569
-                                </strong>
-
-                                <span>
-                                    หนังสือเชิญประชุม
-                                </span>
-
-                            </div>
-
-                            <span class="badge done">
-                                เสร็จแล้ว
-                            </span>
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 SYSTEM MENU
-            ================================================== -->
-
-            <section class="section-block">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <span class="section-kicker">
-                            SYSTEM
-                        </span>
-
-                        <h2>
-                            เมนูงานสารบรรณ
-                        </h2>
-
-                        <p>
-                            เข้าถึงส่วนงานต่าง ๆ ของระบบ
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="system-menu-grid">
-
-
-                    <a href="#" class="system-card">
-
-                        <div class="system-card-icon blue">
-
-                            <svg viewBox="0 0 24 24">
-                                <path d="M5 4h10l4 4v12H5z"/>
-                                <path d="M15 4v5h4"/>
-                            </svg>
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                หนังสือรับ
-                            </h3>
-
-                            <p>
-                                จัดการหนังสือที่รับเข้าระบบ
-                            </p>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a href="#" class="system-card">
-
-                        <div class="system-card-icon green">
-
-                            <svg viewBox="0 0 24 24">
-                                <path d="M5 4h10l4 4v12H5z"/>
-                                <path d="M15 4v5h4"/>
-                            </svg>
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                หนังสือส่ง
-                            </h3>
-
-                            <p>
-                                จัดทำและควบคุมหนังสือส่ง
-                            </p>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a href="#" class="system-card">
-
-                        <div class="system-card-icon orange">
-
-                            <svg viewBox="0 0 24 24">
-                                <rect x="4" y="4" width="16" height="16" rx="2"/>
-                                <path d="M8 9h8"/>
-                                <path d="M8 13h8"/>
-                                <path d="M8 17h5"/>
-                            </svg>
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                ทะเบียนหนังสือ
-                            </h3>
-
-                            <p>
-                                ตรวจสอบทะเบียนและเลขหนังสือ
-                            </p>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a href="#" class="system-card">
-
-                        <div class="system-card-icon purple">
-
-                            <svg viewBox="0 0 24 24">
-                                <circle cx="10.5" cy="10.5" r="5.5"/>
-                                <path d="M15 15l5 5"/>
-                            </svg>
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                ค้นหาเอกสาร
-                            </h3>
-
-                            <p>
-                                ค้นหาเอกสารจากข้อมูลในระบบ
-                            </p>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a href="#" class="system-card">
-
-                        <div class="system-card-icon red">
-
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 4l9 16H3z"/>
-                                <path d="M12 9v5"/>
-                                <circle cx="12" cy="17" r=".7"/>
-                            </svg>
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                รายงาน / สถิติ
-                            </h3>
-
-                            <p>
-                                ดูรายงานและสถิติการดำเนินงาน
-                            </p>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a href="#" class="system-card">
-
-                        <div class="system-card-icon gray">
-
-                            <svg viewBox="0 0 24 24">
-                                <circle cx="12" cy="8" r="3"/>
-                                <path d="M5 20c0-4 3-6 7-6s7 2 7 6"/>
-                            </svg>
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                ผู้ใช้งาน
-                            </h3>
-
-                            <p>
-                                จัดการเจ้าหน้าที่และสิทธิ์การใช้งาน
-                            </p>
-
-                        </div>
-
-                    </a>
-
-                </div>
-
-            </section>
-<!-- INCOMING DOCUMENT DISPATCHES -->
-<section class="section-block" id="incomingDispatchSection">
-    <div class="section-heading">
-        <div>
-            <span class="section-kicker">INCOMING DOCUMENTS</span>
-            <h2>หนังสือรอรับจากหน่วยงานอื่น</h2>
-            <p>รายการหนังสือที่ส่งมายังหน่วยงานของคุณและยังไม่ได้กดรับ</p>
         </div>
 
-        <button
-            type="button"
-            class="view-all"
-            id="refreshIncomingBtn"
-        >
-            ↻ โหลดรายการใหม่
-        </button>
-    </div>
+        <p id="incomingRegistrationMessage" role="status" aria-live="polite"></p>
 
-    <div class="dashboard-panel">
-        <div id="incomingMessage" role="status">
-            กำลังโหลดรายการหนังสือ...
-        </div>
-
-        <div style="overflow-x:auto;">
-            <table style="width:100%; border-collapse:collapse; min-width:700px;">
-                <thead>
-                    <tr>
-                        <th style="text-align:left; padding:12px;">เลขหนังสือ</th>
-                        <th style="text-align:left; padding:12px;">เรื่อง</th>
-                        <th style="text-align:left; padding:12px;">ส่งจาก</th>
-                        <th style="text-align:left; padding:12px;">วันที่ส่ง</th>
-                        <th style="text-align:left; padding:12px;">สถานะ</th>
-                    </tr>
-                </thead>
-                <tbody id="incomingDocumentsBody">
-                    <tr>
-                        <td colspan="5" style="padding:16px;">
-                            กำลังโหลดข้อมูล...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-<!-- END INCOMING DOCUMENT DISPATCHES -->
-
-<!-- PAGE: INCOMING DOCUMENTS -->
-<section id="receivePage" class="section-block" hidden>
-    <div class="section-heading">
-        <div>
-            <span class="section-kicker">INCOMING DOCUMENTS</span>
-            <h2>ระบบหนังสือรับ</h2>
-            <p>จัดการและลงทะเบียนหนังสือรับของเทศบาลตำบลเวียงชัย</p>
-        </div>
-    </div>
-
-    <div class="dashboard-panel" style="padding:24px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-            <h3 style="margin:0;">รายการหนังสือรับ</h3>
-            <button type="button" class="btn btn-primary" id="newIncomingDocumentBtn">
-                + ลงทะเบียนหนังสือรับ
+        <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+            <button type="submit" class="btn btn-primary">
+                บันทึกทะเบียนหนังสือรับ
             </button>
-        </div>
-
-        <div id="receivePageMessage" role="status">
-            หน้าระบบหนังสือรับพร้อมสำหรับพัฒนาฟอร์มลงทะเบียน
-        </div>
-
-        <div id="incomingRegistrationFormContainer" hidden style="margin-top:24px;">
-            <h3>ลงทะเบียนหนังสือรับ</h3>
-
-            <p>ขั้นถัดไปจะเพิ่มแบบฟอร์มและเชื่อมต่อฟังก์ชันลงทะเบียนใน Supabase</p>
 
             <button type="button" id="cancelIncomingDocumentBtn">
                 ยกเลิก
             </button>
         </div>
+    </form>
+</div>
+
+                            
+<div class="dashboard-panel" style="padding:24px;margin-top:20px;">
+    <h3>ทะเบียนหนังสือรับ</h3>
+
+    <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead>
+                <tr>
+                    <th style="padding:12px;">เลขทะเบียนรับ</th>
+                    <th style="padding:12px;">เรื่อง</th>
+                    <th style="padding:12px;">จาก</th>
+                    <th style="padding:12px;">วันที่รับ</th>
+                </tr>
+            </thead>
+            <tbody id="registeredIncomingDocumentsBody">
+                <tr>
+                    <td colspan="4" style="padding:16px;">รายการหนังสือรับจะแสดงที่นี่</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+                            
     </div>
 </section>
 <!-- END PAGE: INCOMING DOCUMENTS -->

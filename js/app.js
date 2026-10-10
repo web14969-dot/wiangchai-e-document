@@ -798,6 +798,7 @@ async function renderIncomingDocumentDispatches() {
     if (!tbody || !message) {
         console.warn("ไม่พบตารางหนังสือรอรับใน index.html");
         return;
+       renderIncomingDocumentDispatches();
     }
 
     message.textContent = "กำลังโหลดรายการหนังสือ...";
@@ -845,9 +846,6 @@ async function renderIncomingDocumentDispatches() {
 /* =====================================================
    ขั้นที่ 14.4: ปุ่มโหลดรายการหนังสือรอรับ
 ===================================================== */
-
-const refreshIncomingButton =
-    document.getElementById("refreshIncomingBtn");
 
 if (refreshIncomingButton) {
     refreshIncomingButton.addEventListener(

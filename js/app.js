@@ -1,857 +1,823 @@
-/* =========================================================
-   WIANG CHAI E-DOCUMENT
-   APPLICATION JAVASCRIPT
-   2026
-========================================================= */
-
 
 /* =========================================================
-   SUPABASE CONNECTION
-   WIANG CHAI E-DOCUMENT
+   WIANG CHAI E-DOCUMENT — APPLICATION JAVASCRIPT
+   Replacement version: login, navigation, incoming dispatches,
+   incoming-document registration, and search.
 ========================================================= */
 
-const SUPABASE_URL =
-    "https://oplchatspdhzriljmlid.supabase.co";
+(() => {
+    "use strict";
 
-const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_Y0EpLZUgaSV89F73i1Y86Q_kGokgZc4";
+    const SUPABASE_URL = "https://oplchatspdhzriljmlid.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Y0EpLZUgaSV89F73i1Y86Q_kGokgZc4";
 
-const supabaseClient =
-    window.supabase.createClient(
+    if (!window.supabase || typeof window.supabase.createClient !== "function") {
+        console.error("ไม่พบ Supabase SDK กรุณาตรวจสอบสคริปต์ Supabase ใน index.html");
+        return;
+    }
+
+    const supabaseClient = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
 
-console.log(
-    "Supabase client connected:",
-    !!supabaseClient
-);
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
+    const state = {
+        session: null,
+        activePage: "dashboard",
+        incomingDocuments: [],
+        dispatches: [],
+        loadingDispatches: false,
+        loadingIncoming: false
+    };
 
-/* =========================================================
-   APPLICATION START
-========================================================= */
+    document.addEventListener("DOMContentLoaded", init);
 
-document.addEventListener(
-    "DOMContentLoaded",
-    async function () {
+    async function init() {
+        console.info("Wiang Chai E-Document: เริ่มต้นระบบ");
+        updateThaiDate();
+        setupSidebar();
+        setupNavigation();
+        setupSearch();
+        setupLogin();
+        setupLogout();
+        setupIncomingRegistration();
+        setupDispatchRefresh();
 
-        console.log(
-            "ระบบงานสารบรรณอิเล็กทรอนิกส์โหลดเรียบร้อย"
-        );
+        const { data, error } = await supabaseClient.auth.getSession();
 
+        if (error) {
+            console.error("ตรวจสอบ Session ไม่สำเร็จ:", error.message);
+            showLogin(true);
+        } else {
+            state.session = data.session;
+            showLogin(!state.session);
 
-        /* =====================================================
-           CURRENT DATE
-        ===================================================== */
-
-        const dateElement =
-            document.getElementById("currentDate");
-
-
-        if (dateElement) {
-
-            const now = new Date();
-
-            const thaiMonths = [
-                "มกราคม",
-                "กุมภาพันธ์",
-                "มีนาคม",
-                "เมษายน",
-                "พฤษภาคม",
-                "มิถุนายน",
-                "กรกฎาคม",
-                "สิงหาคม",
-                "กันยายน",
-                "ตุลาคม",
-                "พฤศจิกายน",
-                "ธันวาคม"
-            ];
-
-
-            const day =
-                now.getDate();
-
-            const month =
-                thaiMonths[now.getMonth()];
-
-            const year =
-                now.getFullYear() + 543;
-
-
-            dateElement.textContent =
-                `${day} ${month} ${year}`;
+            if (state.session) {
+                await afterLogin();
+            }
         }
 
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            state.session = session;
+            showLogin(!session);
 
-
-        /* =====================================================
-           SIDEBAR
-        ===================================================== */
-
-        const sidebar =
-            document.getElementById("sidebar");
-
-        const mobileMenuBtn =
-            document.getElementById("mobileMenuBtn");
-
-        const sidebarOverlay =
-            document.getElementById("sidebarOverlay");
-
-
-        function openSidebar() {
-
-            if (!sidebar) {
-                return;
+            if (event === "SIGNED_IN" && session) {
+                window.setTimeout(() => afterLogin(), 0);
             }
 
-
-            sidebar.classList.add("open");
-
-
-            if (sidebarOverlay) {
-
-                sidebarOverlay.classList.add(
-                    "active"
-                );
-
+            if (event === "SIGNED_OUT") {
+                state.incomingDocuments = [];
+                state.dispatches = [];
+                renderIncomingDocuments();
+                renderDispatches();
+                showDashboard();
             }
+        });
+    }
 
-        }
+    function updateThaiDate() {
+        const element = $("#currentDate");
+        if (!element) return;
 
+        element.textContent = new Intl.DateTimeFormat("th-TH", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+            timeZone: "Asia/Bangkok"
+        }).format(new Date());
+    }
 
-        function closeSidebar() {
+    function setupSidebar() {
+        const sidebar = $("#sidebar");
+        const overlay = $("#sidebarOverlay");
+        const menuButton = $("#mobileMenuBtn");
 
-            if (!sidebar) {
-                return;
-            }
+        const closeSidebar = () => {
+            sidebar?.classList.remove("open");
+            overlay?.classList.remove("active");
+        };
 
+        menuButton?.addEventListener("click", () => {
+            sidebar?.classList.add("open");
+            overlay?.classList.add("active");
+        });
 
-            sidebar.classList.remove("open");
+        overlay?.addEventListener("click", closeSidebar);
 
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 1050) closeSidebar();
+        });
+    }
 
-            if (sidebarOverlay) {
+    function setupNavigation() {
+        $$(".nav-item").forEach((item) => {
+            item.addEventListener("click", (event) => {
+                event.preventDefault();
+                const label = item.textContent.trim();
 
-                sidebarOverlay.classList.remove(
-                    "active"
-                );
-
-            }
-
-        }
-
-
-        if (mobileMenuBtn) {
-
-            mobileMenuBtn.addEventListener(
-                "click",
-                openSidebar
-            );
-
-        }
-
-
-        if (sidebarOverlay) {
-
-            sidebarOverlay.addEventListener(
-                "click",
-                closeSidebar
-            );
-
-        }
-
-
-        /* =====================================================
-           SYSTEM MENU
-        ===================================================== */
-
-        const systemCards =
-            document.querySelectorAll(
-                ".system-card"
-            );
-
-
-        systemCards.forEach(
-            function (card) {
-
-                card.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.preventDefault();
-
-
-                        console.log(
-                            "System Menu:",
-                            card.innerText.trim()
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-
-        /* =====================================================
-           SEARCH
-        ===================================================== */
-
-        const searchInput =
-            document.querySelector(
-                ".search-box input"
-            );
-
-
-        if (searchInput) {
-
-            searchInput.addEventListener(
-                "keydown",
-                function (event) {
-
-                    if (
-                        event.key === "Enter"
-                    ) {
-
-                        const keyword =
-                            searchInput.value.trim();
-
-
-                        if (
-                            keyword !== ""
-                        ) {
-
-                            console.log(
-                                "ค้นหา:",
-                                keyword
-                            );
-
-                        }
-
-                    }
-
-                }
-            );
-
-        }
-
-
-
-        /* =====================================================
-           RESIZE
-        ===================================================== */
-
-        window.addEventListener(
-            "resize",
-            function () {
-
-                if (
-                    window.innerWidth > 1050
-                ) {
-
-                    closeSidebar();
-
+                if (label.includes("หน้าหลัก")) {
+                    showDashboard();
+                } else if (label.includes("หนังสือรับ")) {
+                    showIncomingPage(false);
+                } else {
+                    showNotReady(label);
                 }
 
-            }
-        );
+                $$(".nav-item").forEach((nav) => {
+                    nav.classList.toggle("active", nav === item);
+                });
 
+                closeMobileSidebar();
+            });
+        });
 
-
-        /* =====================================================
-           LOGIN SYSTEM
-           WIANG CHAI E-DOCUMENT
-        ===================================================== */
-
-        const loginScreen =
-            document.getElementById(
-                "loginScreen"
-            );
-
-        const loginForm =
-            document.getElementById(
-                "loginForm"
-            );
-
-        const loginEmail =
-            document.getElementById(
-                "loginEmail"
-            );
-
-        const loginPassword =
-            document.getElementById(
-                "loginPassword"
-            );
-
-        const loginButton =
-            document.getElementById(
-                "loginButton"
-            );
-
-        const loginMessage =
-            document.getElementById(
-                "loginMessage"
-            );
-
-
-        /*
-         * ตรวจสอบว่าหน้า Login มีองค์ประกอบครบหรือไม่
-         */
-
-        if (
-            !loginScreen ||
-            !loginForm ||
-            !loginEmail ||
-            !loginPassword ||
-            !loginButton ||
-            !loginMessage
-        ) {
-
-            console.error(
-                "ไม่พบองค์ประกอบของหน้า Login"
-            );
-
-            return;
-
-        }
-
-
-
-        /* =====================================================
-           ตรวจสอบ SESSION ที่มีอยู่
-        ===================================================== */
-
-        try {
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient.auth.getSession();
-
-
-            if (error) {
-
-                console.error(
-                    "ตรวจสอบ Session ไม่สำเร็จ:",
-                    error
-                );
-
-                loginScreen.style.display =
-                    "flex";
-
-            }
-            else if (data.session) {
-
-                /*
-                 * มี Session อยู่แล้ว
-                 * ซ่อนหน้า Login
-                 */
-
-                loginScreen.style.display =
-                    "none";
-
-
-                console.log(
-                    "มีผู้ใช้งานเข้าสู่ระบบอยู่แล้ว:",
-                    data.session.user.email
-                );
-
-            }
-            else {
-
-                /*
-                 * ยังไม่ได้ Login
-                 * แสดงหน้า Login
-                 */
-
-                loginScreen.style.display =
-                    "flex";
-
-            }
-
-        }
-        catch (error) {
-
-            console.error(
-                "เกิดข้อผิดพลาดในการตรวจสอบ Session:",
-                error
-            );
-
-
-            loginScreen.style.display =
-                "flex";
-
-        }
-
-
-
-        /* =====================================================
-           LOGIN FORM
-        ===================================================== */
-
-        loginForm.addEventListener(
-            "submit",
-            async function (event) {
-
-                /*
-                 * ป้องกัน Form รีเฟรชหน้า
-                 */
-
+        $$(".quick-card").forEach((card) => {
+            card.addEventListener("click", (event) => {
                 event.preventDefault();
 
+                const page = card.dataset.page || "";
 
-                /* ---------------------------------------------
-                   รับค่าจาก Form
-                --------------------------------------------- */
-
-                const email =
-                    loginEmail.value.trim();
-
-                const password =
-                    loginPassword.value;
-
-
-                /* ---------------------------------------------
-                   ล้างข้อความเดิม
-                --------------------------------------------- */
-
-                loginMessage.textContent = "";
-
-
-                loginMessage.classList.remove(
-                    "error",
-                    "success"
-                );
-
-
-                /* ---------------------------------------------
-                   ตรวจสอบข้อมูลเบื้องต้น
-                --------------------------------------------- */
-
-                if (!email) {
-
-                    loginMessage.textContent =
-                        "กรุณากรอกอีเมล";
-
-                    loginMessage.classList.add(
-                        "error"
-                    );
-
-
-                    loginEmail.focus();
-
-                    return;
-
+                if (
+                    page === "receive" ||
+                    card.textContent.includes("ลงทะเบียนหนังสือรับ")
+                ) {
+                    showIncomingPage(true);
+                } else {
+                    showNotReady(card.textContent.trim());
                 }
+            });
+        });
 
+        $$(".system-card").forEach((card) => {
+            card.addEventListener("click", (event) => {
+                event.preventDefault();
+                const label = card.textContent.trim();
 
-                if (!password) {
-
-                    loginMessage.textContent =
-                        "กรุณากรอกรหัสผ่าน";
-
-                    loginMessage.classList.add(
-                        "error"
-                    );
-
-
-                    loginPassword.focus();
-
-                    return;
-
+                if (label.includes("หนังสือรับ")) {
+                    showIncomingPage(false);
+                } else {
+                    showNotReady(label);
                 }
+            });
+        });
 
+        $("#newIncomingDocumentBtn")?.addEventListener("click", () => {
+            showIncomingPage(true);
+        });
 
+        $("#cancelIncomingDocumentBtn")?.addEventListener(
+            "click",
+            hideIncomingForm
+        );
+    }
 
-                /* ---------------------------------------------
-                   ป้องกันการกดปุ่มซ้ำ
-                --------------------------------------------- */
+    function closeMobileSidebar() {
+        if (window.innerWidth <= 1050) {
+            $("#sidebar")?.classList.remove("open");
+            $("#sidebarOverlay")?.classList.remove("active");
+        }
+    }
 
-                loginButton.disabled =
-                    true;
+    function showDashboard() {
+        state.activePage = "dashboard";
 
-                loginButton.textContent =
-                    "กำลังเข้าสู่ระบบ...";
+        const receivePage = $("#receivePage");
+        if (receivePage) receivePage.hidden = true;
 
+        getDashboardSections().forEach((section) => {
+            section.hidden = false;
+        });
+    }
 
+    function showIncomingPage(openForm) {
+        if (!requireSession()) return;
 
-                /* ---------------------------------------------
-                   LOGIN SUPABASE
-                --------------------------------------------- */
+        state.activePage = "receive";
 
-                try {
+        getDashboardSections().forEach((section) => {
+            section.hidden = true;
+        });
 
-                    const {
-                        data,
-                        error
-                    } =
-                        await supabaseClient.auth
-                            .signInWithPassword({
+        const receivePage = $("#receivePage");
+        if (receivePage) receivePage.hidden = false;
 
-                                email: email,
+        const message = $("#receivePageMessage");
+        if (message) message.textContent = "ระบบหนังสือรับพร้อมใช้งาน";
 
-                                password: password
+        if (openForm) {
+            showIncomingForm();
+        } else {
+            hideIncomingForm();
+        }
 
-                            });
+        loadIncomingDocuments();
+    }
 
+    function getDashboardSections() {
+        const content = $(".content");
+        if (!content) return [];
 
+        return Array.from(content.children).filter(
+            (element) => element.id !== "receivePage"
+        );
+    }
 
-                    /* -----------------------------------------
-                       LOGIN ไม่สำเร็จ
-                    ----------------------------------------- */
+    function showNotReady(label) {
+        window.alert(`เมนู “${label}” ยังไม่ได้เชื่อมต่อกับหน้าระบบจริง`);
+    }
 
-                    if (error) {
+    function showIncomingForm() {
+        const container = $("#incomingRegistrationFormContainer");
+        if (container) container.hidden = false;
 
-                        console.error(
-                            "Login error:",
-                            error
-                        );
+        const form = $("#incomingRegistrationForm");
+        const dateInput = form?.elements.namedItem("received_date");
 
+        if (dateInput && !dateInput.value) {
+            dateInput.value = localDateInputValue();
+        }
 
-                        /*
-                         * แจ้งผู้ใช้ทันที
-                         */
+        form?.elements.namedItem("subject")?.focus();
+    }
 
-                        loginMessage.textContent =
-                            "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+    function hideIncomingForm() {
+        const container = $("#incomingRegistrationFormContainer");
+        if (container) container.hidden = true;
 
-                        loginMessage.classList.add(
-                            "error"
-                        );
+        const message = $("#incomingRegistrationMessage");
 
+        if (message) {
+            message.textContent = "";
+            message.className = "";
+        }
+    }
 
-                        /*
-                         * ล้างเฉพาะรหัสผ่าน
-                         */
-
-                        loginPassword.value = "";
-
-
-                        /*
-                         * ให้กลับไปกรอกรหัสใหม่
-                         */
-
-                        loginPassword.focus();
-
-
-                        /*
-                         * เปิดปุ่มกลับมาใช้งาน
-                         */
-
-                        loginButton.disabled =
-                            false;
-
-                        loginButton.textContent =
-                            "เข้าสู่ระบบ";
-
-
-                        return;
-
-                    }
-
-
-
-                    /* -----------------------------------------
-                       LOGIN สำเร็จ
-                    ----------------------------------------- */
-
-                    console.log(
-                        "เข้าสู่ระบบสำเร็จ:",
-                        data.user.email
-                    );
-
-
-                    loginMessage.textContent =
-                        "เข้าสู่ระบบสำเร็จ";
-
-                    loginMessage.classList.add(
-                        "success"
-                    );
-
-
-                    /*
-                     * ซ่อนหน้า Login
-                     */
-
-                    loginScreen.style.display =
-                        "none";
-
-
-                    /*
-                     * คืนค่าปุ่ม
-                     */
-
-                    loginButton.disabled =
-                        false;
-
-                    loginButton.textContent =
-                        "เข้าสู่ระบบ";
-
-
-                }
-                catch (error) {
-
-                    /* -----------------------------------------
-                       ระบบ / Internet มีปัญหา
-                    ----------------------------------------- */
-
-                    console.error(
-                        "ระบบ Login ผิดพลาด:",
-                        error
-                    );
-
-
-                    loginMessage.textContent =
-                        "ไม่สามารถเชื่อมต่อระบบได้ กรุณาลองใหม่อีกครั้ง";
-
-                    loginMessage.classList.add(
-                        "error"
-                    );
-
-
-                    loginButton.disabled =
-                        false;
-
-                    loginButton.textContent =
-                        "เข้าสู่ระบบ";
-
-                }
-
-            }
+    function localDateInputValue() {
+        const now = new Date();
+        const local = new Date(
+            now.getTime() - now.getTimezoneOffset() * 60000
         );
 
+        return local.toISOString().slice(0, 10);
+    }
 
+    function setupLogin() {
+        const form = $("#loginForm");
+        const emailInput = $("#loginEmail");
+        const passwordInput = $("#loginPassword");
+        const button = $("#loginButton");
+        const message = $("#loginMessage");
 
-        /* =====================================================
-           SESSION STATE CHANGE
-        ===================================================== */
-
-        supabaseClient.auth.onAuthStateChange(
-            function (event, session) {
-
-                console.log(
-                    "Auth state:",
-                    event
-                );
-
-
-                if (session) {
-
-                    /*
-                     * Login แล้ว
-                     */
-
-                    loginScreen.style.display =
-                        "none";
-
-                }
-                else {
-
-                    /*
-                     * Logout หรือไม่มี Session
-                     */
-
-                    loginScreen.style.display =
-                        "flex";
-
-                }
-
-            }
-        );
-
-       // =====================================================
-// LOGOUT SYSTEM
-// =====================================================
-
-const logoutBtn = document.getElementById("logoutBtn");
-
-if (logoutBtn) {
-
-    logoutBtn.addEventListener("click", async function () {
-
-        const confirmLogout = confirm("ต้องการออกจากระบบหรือไม่?");
-
-        if (!confirmLogout) {
+        if (!form || !emailInput || !passwordInput || !button || !message) {
+            console.error("ไม่พบองค์ประกอบหน้า Login ครบถ้วน");
             return;
         }
 
-        logoutBtn.disabled = true;
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                setMessage(message, "กรุณากรอกอีเมลและรหัสผ่าน", "error");
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "กำลังเข้าสู่ระบบ...";
+            setMessage(message, "", "");
+
+            try {
+                const { error } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) throw error;
+
+                passwordInput.value = "";
+                setMessage(message, "เข้าสู่ระบบสำเร็จ", "success");
+            } catch (error) {
+                console.error("Login error:", error);
+                passwordInput.value = "";
+
+                setMessage(
+                    message,
+                    "เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน",
+                    "error"
+                );
+
+                passwordInput.focus();
+            } finally {
+                button.disabled = false;
+                button.textContent = "เข้าสู่ระบบ";
+            }
+        });
+    }
+
+    function setupLogout() {
+        $("#logoutBtn")?.addEventListener("click", async () => {
+            if (!window.confirm("ต้องการออกจากระบบหรือไม่?")) return;
+
+            const button = $("#logoutBtn");
+            if (button) button.disabled = true;
+
+            try {
+                const { error } = await supabaseClient.auth.signOut();
+                if (error) throw error;
+            } catch (error) {
+                console.error("Logout error:", error);
+                window.alert("ออกจากระบบไม่สำเร็จ กรุณาลองใหม่");
+            } finally {
+                if (button) button.disabled = false;
+            }
+        });
+    }
+
+    function showLogin(show) {
+        const loginScreen = $("#loginScreen");
+        if (loginScreen) {
+            loginScreen.style.display = show ? "flex" : "none";
+        }
+    }
+
+    async function afterLogin() {
+        showLogin(false);
+        await Promise.all([
+            loadDispatches(),
+            loadIncomingDocuments()
+        ]);
+    }
+
+    function requireSession() {
+        if (state.session) return true;
+
+        setMessage(
+            $("#receivePageMessage"),
+            "กรุณาเข้าสู่ระบบก่อนใช้งานหนังสือรับ",
+            "error"
+        );
+
+        showLogin(true);
+        return false;
+    }
+
+    function setupDispatchRefresh() {
+        $("#refreshIncomingBtn")?.addEventListener("click", () => {
+            loadDispatches(true);
+        });
+    }
+
+    async function loadDispatches(showLoading = false) {
+        const tbody = $("#incomingDocumentsBody");
+        const message = $("#incomingMessage");
+
+        if (!tbody || !message) return;
+
+        if (!state.session) {
+            state.dispatches = [];
+            message.textContent = "กรุณาเข้าสู่ระบบเพื่อดูหนังสือรอรับ";
+            tbody.replaceChildren();
+
+            appendTableMessage(
+                tbody,
+                5,
+                "กรุณาเข้าสู่ระบบเพื่อดูรายการ"
+            );
+
+            return;
+        }
+
+        if (state.loadingDispatches) return;
+        state.loadingDispatches = true;
+
+        if (showLoading) {
+            message.textContent = "กำลังโหลดรายการหนังสือ...";
+        }
 
         try {
+            const { data, error } = await supabaseClient.rpc(
+                "get_incoming_document_dispatches"
+            );
 
-            const { error } = await supabaseClient.auth.signOut();
+            if (error) throw error;
 
-            if (error) {
-                throw error;
+            state.dispatches = Array.isArray(data) ? data : [];
+            renderDispatches();
+        } catch (error) {
+            console.error("โหลดหนังสือรอรับไม่สำเร็จ:", error);
+
+            message.textContent =
+                `โหลดรายการไม่สำเร็จ: ${error.message || "เกิดข้อผิดพลาด"}`;
+
+            tbody.replaceChildren();
+
+            appendTableMessage(
+                tbody,
+                5,
+                "เกิดข้อผิดพลาดในการโหลดข้อมูล"
+            );
+        } finally {
+            state.loadingDispatches = false;
+        }
+    }
+
+    function renderDispatches() {
+        const tbody = $("#incomingDocumentsBody");
+        const message = $("#incomingMessage");
+
+        if (!tbody || !message) return;
+
+        tbody.replaceChildren();
+
+        if (!state.session) {
+            message.textContent = "กรุณาเข้าสู่ระบบเพื่อดูหนังสือรอรับ";
+
+            appendTableMessage(
+                tbody,
+                5,
+                "กรุณาเข้าสู่ระบบเพื่อดูรายการ"
+            );
+
+            return;
+        }
+
+        if (!state.dispatches.length) {
+            message.textContent = "ไม่มีหนังสือรอรับในขณะนี้";
+            appendTableMessage(tbody, 5, "ไม่พบรายการหนังสือที่รอรับ");
+            return;
+        }
+
+        message.textContent =
+            `พบหนังสือรอรับ ${state.dispatches.length} รายการ`;
+
+        state.dispatches.forEach((doc) => {
+            const row = document.createElement("tr");
+
+            [
+                doc.document_no,
+                doc.subject,
+                doc.sender_name,
+                formatThaiDateTime(doc.dispatched_at),
+                doc.status || "รอรับ"
+            ].forEach((value) => appendCell(row, value || "-"));
+
+            tbody.appendChild(row);
+        });
+    }
+
+    function setupIncomingRegistration() {
+        const form = $("#incomingRegistrationForm");
+
+        if (!form) {
+            console.warn("ไม่พบ #incomingRegistrationForm ใน index.html");
+            return;
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!requireSession()) return;
+
+            const message = $("#incomingRegistrationMessage");
+            const submitButton = $("button[type='submit']", form);
+            const formData = new FormData(form);
+
+            const payload = {
+                subject: String(formData.get("subject") || "").trim(),
+                sender_name: String(formData.get("sender_name") || "").trim(),
+                received_date: String(formData.get("received_date") || ""),
+                document_date:
+                    String(formData.get("document_date") || "") || null,
+                reference_no:
+                    String(formData.get("reference_no") || "").trim() || null,
+                notes: String(formData.get("notes") || "").trim() || null,
+                created_by: state.session.user.id
+            };
+
+            if (
+                !payload.subject ||
+                !payload.sender_name ||
+                !payload.received_date
+            ) {
+                setMessage(
+                    message,
+                    "กรุณากรอกเรื่อง ผู้ส่ง และวันที่รับหนังสือให้ครบ",
+                    "error"
+                );
+
+                return;
             }
 
-            // กลับไปหน้า Login
-            loginScreen.style.display = "flex";
-
-            // ล้างรหัสผ่าน
-            if (loginPassword) {
-                loginPassword.value = "";
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = "กำลังบันทึก...";
             }
 
-            // ล้างข้อความแจ้งเตือน
-            if (loginMessage) {
-                loginMessage.textContent = "";
-                loginMessage.classList.remove(
-                    "error",
+            setMessage(message, "", "");
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from("incoming_documents")
+                    .insert(payload)
+                    .select(
+                        "id, register_no, subject, sender_name, received_date, document_date, reference_no, notes, created_at"
+                    )
+                    .single();
+
+                if (error) throw error;
+
+                setMessage(
+                    message,
+                    `บันทึกทะเบียนหนังสือรับสำเร็จ${
+                        data?.register_no ? ` เลขรับ ${data.register_no}` : ""
+                    }`,
                     "success"
                 );
+
+                form.reset();
+
+                const dateInput = form.elements.namedItem("received_date");
+                if (dateInput) dateInput.value = localDateInputValue();
+
+                await loadIncomingDocuments();
+            } catch (error) {
+                console.error("บันทึกหนังสือรับไม่สำเร็จ:", error);
+
+                const detail = error?.message || "เกิดข้อผิดพลาด";
+
+                setMessage(
+                    message,
+                    `บันทึกไม่สำเร็จ: ${detail} (ตรวจสอบตาราง incoming_documents และสิทธิ์ RLS ใน Supabase)`,
+                    "error"
+                );
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = "บันทึกทะเบียนหนังสือรับ";
+                }
+            }
+        });
+    }
+
+    async function loadIncomingDocuments() {
+        const tbody = $("#registeredIncomingDocumentsBody");
+        const message = $("#receivePageMessage");
+
+        if (!tbody) return;
+
+        if (!state.session) {
+            tbody.replaceChildren();
+
+            appendTableMessage(
+                tbody,
+                4,
+                "กรุณาเข้าสู่ระบบเพื่อดูทะเบียนหนังสือรับ"
+            );
+
+            if (message) {
+                message.textContent = "กรุณาเข้าสู่ระบบก่อนดูทะเบียนหนังสือรับ";
             }
 
-            // กลับไปช่อง Email
-            if (loginEmail) {
-                loginEmail.focus();
-            }
+            return;
+        }
 
+        if (state.loadingIncoming) return;
+        state.loadingIncoming = true;
+
+        tbody.replaceChildren();
+        appendTableMessage(tbody, 4, "กำลังโหลดทะเบียนหนังสือรับ...");
+
+        try {
+            const { data, error } = await supabaseClient
+                .from("incoming_documents")
+                .select(
+                    "id, register_no, subject, sender_name, received_date, created_at"
+                )
+                .order("created_at", { ascending: false })
+                .limit(200);
+
+            if (error) throw error;
+
+            state.incomingDocuments = Array.isArray(data) ? data : [];
+
+            renderIncomingDocuments();
+
+            if (message) {
+                message.textContent =
+                    `ทะเบียนหนังสือรับ ${state.incomingDocuments.length} รายการ`;
+            }
         } catch (error) {
+            console.error("โหลดทะเบียนหนังสือรับไม่สำเร็จ:", error);
 
-            console.error(
-                "Logout error:",
-                error
+            tbody.replaceChildren();
+
+            appendTableMessage(
+                tbody,
+                4,
+                "โหลดทะเบียนไม่สำเร็จ โปรดตรวจสอบตาราง incoming_documents และสิทธิ์ RLS"
             );
 
-            alert(
-                "ไม่สามารถออกจากระบบได้ กรุณาลองใหม่อีกครั้ง"
-            );
-
+            if (message) {
+                message.textContent =
+                    `โหลดทะเบียนไม่สำเร็จ: ${error.message || "เกิดข้อผิดพลาด"}`;
+            }
         } finally {
+            state.loadingIncoming = false;
+        }
+    }
 
-            logoutBtn.disabled = false;
+    function renderIncomingDocuments() {
+        const tbody = $("#registeredIncomingDocumentsBody");
+        if (!tbody) return;
 
+        tbody.replaceChildren();
+
+        if (!state.session) {
+            appendTableMessage(
+                tbody,
+                4,
+                "กรุณาเข้าสู่ระบบเพื่อดูทะเบียนหนังสือรับ"
+            );
+
+            return;
         }
 
-    });
-
-}
-
-
-    }
-);
-
-
-/* =====================================================
-   ขั้นที่ 14.2: โหลดรายการหนังสือรอรับ
-   ===================================================== */
-
-async function loadIncomingDocumentDispatches() {
-    try {
-        const {
-            data: { session },
-            error: sessionError
-        } = await supabaseClient.auth.getSession();
-
-        if (sessionError) throw sessionError;
-
-        if (!session) {
-            console.warn("กรุณาเข้าสู่ระบบก่อนดูหนังสือรอรับ");
-            return [];
+        if (!state.incomingDocuments.length) {
+            appendTableMessage(tbody, 4, "ยังไม่มีทะเบียนหนังสือรับ");
+            return;
         }
 
-        const { data, error } = await supabaseClient.rpc(
-            "get_incoming_document_dispatches"
-        );
+        state.incomingDocuments.forEach((doc) => {
+            const row = document.createElement("tr");
 
-        if (error) throw error;
+            appendCell(row, doc.register_no || "-");
+            appendCell(row, doc.subject || "-");
+            appendCell(row, doc.sender_name || "-");
+            appendCell(row, formatThaiDate(doc.received_date));
 
-        const documents = Array.isArray(data) ? data : [];
-
-        console.log("รายการหนังสือรอรับ:", documents);
-        return documents;
-    } catch (error) {
-        console.error(
-            "โหลดรายการหนังสือรอรับไม่สำเร็จ:",
-            error.message
-        );
-        return [];
-    }
-}
-
-
-/* =====================================================
-   ขั้นที่ 14.3: แสดงหนังสือรอรับในตารางหน้าเว็บ
-   ===================================================== */
-
-function formatThaiDateTime(value) {
-    if (!value) return "-";
-
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) return "-";
-
-    return date.toLocaleString("th-TH", {
-        dateStyle: "medium",
-        timeStyle: "short",
-        timeZone: "Asia/Bangkok"
-    });
-}
-
-async function renderIncomingDocumentDispatches() {
-    const tbody = document.getElementById("incomingDocumentsBody");
-    const message = document.getElementById("incomingMessage");
-
-    if (!tbody || !message) {
-        console.warn("ไม่พบตารางหนังสือรอรับใน index.html");
-        return;
-       renderIncomingDocumentDispatches();
+            tbody.appendChild(row);
+        });
     }
 
-    message.textContent = "กำลังโหลดรายการหนังสือ...";
-    tbody.replaceChildren();
+    function setupSearch() {
+        const input = $(".search-box input");
+        if (!input) return;
 
-    const documents = await loadIncomingDocumentDispatches();
+        input.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter") return;
 
-    if (documents.length === 0) {
-        message.textContent = "ไม่มีหนังสือรอรับในขณะนี้";
+            const keyword = input.value.trim().toLocaleLowerCase("th-TH");
+
+            if (!keyword) {
+                renderDispatches();
+                renderIncomingDocuments();
+                return;
+            }
+
+            const filteredDispatches = state.dispatches.filter((doc) =>
+                [
+                    doc.document_no,
+                    doc.subject,
+                    doc.sender_name,
+                    doc.status
+                ].some((value) =>
+                    String(value || "")
+                        .toLocaleLowerCase("th-TH")
+                        .includes(keyword)
+                )
+            );
+
+            const dispatchBody = $("#incomingDocumentsBody");
+            const dispatchMessage = $("#incomingMessage");
+
+            if (dispatchBody && dispatchMessage) {
+                dispatchBody.replaceChildren();
+
+                filteredDispatches.forEach((doc) => {
+                    const row = document.createElement("tr");
+
+                    [
+                        doc.document_no,
+                        doc.subject,
+                        doc.sender_name,
+                        formatThaiDateTime(doc.dispatched_at),
+                        doc.status || "รอรับ"
+                    ].forEach((value) => appendCell(row, value || "-"));
+
+                    dispatchBody.appendChild(row);
+                });
+
+                dispatchMessage.textContent =
+                    `ผลค้นหาหนังสือรอรับ ${filteredDispatches.length} รายการ`;
+
+                if (!filteredDispatches.length) {
+                    appendTableMessage(
+                        dispatchBody,
+                        5,
+                        "ไม่พบรายการที่ตรงกับคำค้น"
+                    );
+                }
+            }
+
+            const filteredIncoming = state.incomingDocuments.filter((doc) =>
+                [doc.register_no, doc.subject, doc.sender_name].some((value) =>
+                    String(value || "")
+                        .toLocaleLowerCase("th-TH")
+                        .includes(keyword)
+                )
+            );
+
+            const incomingBody = $("#registeredIncomingDocumentsBody");
+
+            if (incomingBody) {
+                incomingBody.replaceChildren();
+
+                filteredIncoming.forEach((doc) => {
+                    const row = document.createElement("tr");
+
+                    [
+                        doc.register_no || "-",
+                        doc.subject || "-",
+                        doc.sender_name || "-",
+                        formatThaiDate(doc.received_date)
+                    ].forEach((value) => appendCell(row, value));
+
+                    incomingBody.appendChild(row);
+                });
+
+                if (!filteredIncoming.length) {
+                    appendTableMessage(
+                        incomingBody,
+                        4,
+                        "ไม่พบรายการที่ตรงกับคำค้น"
+                    );
+                }
+            }
+        });
+    }
+
+    function setMessage(element, text, type) {
+        if (!element) return;
+
+        element.textContent = text;
+        element.classList.remove("error", "success");
+
+        if (type === "error" || type === "success") {
+            element.classList.add(type);
+        }
+    }
+
+    function appendTableMessage(tbody, colspan, text) {
         const row = document.createElement("tr");
         const cell = document.createElement("td");
 
-        cell.colSpan = 5;
+        cell.colSpan = colspan;
         cell.style.padding = "16px";
-        cell.textContent = "ไม่พบรายการหนังสือที่รอรับ";
+        cell.textContent = text;
 
         row.appendChild(cell);
         tbody.appendChild(row);
-        return;
     }
 
-    message.textContent = `พบหนังสือรอรับ ${documents.length} รายการ`;
+    function appendCell(row, value) {
+        const cell = document.createElement("td");
 
-    documents.forEach((doc) => {
-        const row = document.createElement("tr");
+        cell.style.padding = "12px";
+        cell.style.borderTop = "1px solid #e5e7eb";
+        cell.textContent = String(value ?? "-");
 
-        [
-            doc.document_no || "-",
-            doc.subject || "-",
-            doc.sender_name || "-",
-            formatThaiDateTime(doc.dispatched_at),
-            doc.status || "รอรับ"
-        ].forEach((value) => {
-            const cell = document.createElement("td");
-            cell.style.padding = "12px";
-            cell.style.borderTop = "1px solid #e5e7eb";
-            cell.textContent = value;
-            row.appendChild(cell);
-        });
+        row.appendChild(cell);
+    }
 
-        tbody.appendChild(row);
-    });
-}
+    function formatThaiDateTime(value) {
+        if (!value) return "-";
 
-/* =====================================================
-   ขั้นที่ 14.4: ปุ่มโหลดรายการหนังสือรอรับ
-===================================================== */
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "-";
 
-if (refreshIncomingButton) {
-    refreshIncomingButton.addEventListener(
-        "click",
-        renderIncomingDocumentDispatches
-    );
-}
+        return new Intl.DateTimeFormat("th-TH", {
+            dateStyle: "medium",
+            timeStyle: "short",
+            timeZone: "Asia/Bangkok"
+        }).format(date);
+    }
 
+    function formatThaiDate(value) {
+        if (!value) return "-";
 
+        const date = new Date(`${value}T00:00:00+07:00`);
+        if (Number.isNaN(date.getTime())) return String(value);
+
+        return new Intl.DateTimeFormat("th-TH", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            timeZone: "Asia/Bangkok"
+        }).format(date);
+    }
+})();

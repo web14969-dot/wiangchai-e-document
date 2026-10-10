@@ -162,55 +162,150 @@ document.addEventListener(
 
 
 
-        /* =====================================================
-           SIDEBAR ACTIVE MENU
-        ===================================================== */
 
-        const navItems =
-            document.querySelectorAll(
-                ".nav-item"
-            );
+/* =====================================================
+   SIDEBAR ACTIVE MENU + QUICK ACTION NAVIGATION
+   ===================================================== */
 
+const navItems = document.querySelectorAll(".nav-item");
 
-        navItems.forEach(
-            function (item) {
+function showSystemPage(page, clickedItem = null) {
+    // หน้าปลายทางที่เราจะเชื่อมต่อในระบบ
+    const pageTitles = {
+        dashboard: "หน้าหลัก",
+        receive: "หนังสือรับ",
+        dispatch: "หนังสือส่ง",
+        register: "ทะเบียนหนังสือ",
+        search: "ค้นหาเอกสาร",
+        endorse: "เกษียนหนังสือ",
+        reports: "รายงาน / สถิติ",
+        users: "ผู้ใช้งาน",
+        settings: "ตั้งค่าระบบ",
+        stamp: "พิมพ์ตรารับ"
+    };
 
-                item.addEventListener(
-                    "click",
-                    function (event) {
+    const title = pageTitles[page];
 
-                        event.preventDefault();
+    if (!title) {
+        console.warn("ไม่รู้จักหน้าที่ต้องการเปิด:", page);
+        return;
+    }
 
+    // ปรับสถานะเมนูด้านซ้าย
+    navItems.forEach(function (nav) {
+        nav.classList.remove("active");
+    });
 
-                        navItems.forEach(
-                            function (nav) {
-
-                                nav.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                        item.classList.add(
-                            "active"
-                        );
-
-
-                        if (
-                            window.innerWidth <= 1050
-                        ) {
-
-                            closeSidebar();
-
-                        }
-
-                    }
-                );
-
-            }
+    if (clickedItem && clickedItem.classList.contains("nav-item")) {
+        clickedItem.classList.add("active");
+    } else {
+        const matchingNav = document.querySelector(
+            '.nav-item[data-page="' + page + '"]'
         );
+
+        if (matchingNav) {
+            matchingNav.classList.add("active");
+        }
+    }
+
+    // Dashboard เดิมยังคงแสดงตามปกติ
+    const dashboard = document.querySelector("main");
+
+    if (!dashboard) {
+        console.warn("ไม่พบส่วน main ของหน้าเว็บ");
+        return;
+    }
+
+    // สร้างพื้นที่แจ้งสถานะหน้าที่เลือก
+    let pagePanel = document.getElementById("systemPagePanel");
+
+    if (!pagePanel) {
+        pagePanel = document.createElement("section");
+        pagePanel.id = "systemPagePanel";
+        pagePanel.className = "section-block";
+        pagePanel.style.cssText =
+            "background:#fff;border:1px solid #e5e7eb;" +
+            "border-radius:14px;padding:24px;margin:24px 0;";
+
+        dashboard.prepend(pagePanel);
+    }
+
+    // ซ่อน Dashboard เดิมเมื่อเปิดหน้าทำงานอื่น
+    const dashboardSections = dashboard.querySelectorAll(
+        ".section-block"
+    );
+
+    dashboardSections.forEach(function (section) {
+        if (section.id !== "systemPagePanel") {
+            section.dataset.navigationHidden = "true";
+            section.hidden = page !== "dashboard";
+        }
+    });
+
+    if (page === "dashboard") {
+        pagePanel.hidden = true;
+
+        dashboardSections.forEach(function (section) {
+            if (section.dataset.navigationHidden === "true") {
+                section.hidden = false;
+                delete section.dataset.navigationHidden;
+            }
+        });
+
+        return;
+    }
+
+    pagePanel.hidden = false;
+
+    const heading = document.createElement("h2");
+    heading.textContent = title;
+
+    const description = document.createElement("p");
+    description.textContent =
+        "หน้านี้เตรียมพื้นที่ไว้แล้ว ขั้นตอนถัดไปจะเชื่อมแบบฟอร์มและข้อมูลจริงจาก Supabase";
+
+    const backButton = document.createElement("button");
+    backButton.type = "button";
+    backButton.textContent = "กลับหน้าหลัก";
+    backButton.className = "btn btn-primary";
+    backButton.addEventListener("click", function () {
+        showSystemPage("dashboard");
+    });
+
+    pagePanel.replaceChildren(heading, description, backButton);
+
+    if (window.innerWidth <= 1050 && typeof closeSidebar === "function") {
+        closeSidebar();
+    }
+}
+
+// เมนูด้านซ้าย
+navItems.forEach(function (item) {
+    item.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const page = item.dataset.page;
+
+        if (!page) {
+            console.warn(
+                "เมนูนี้ยังไม่มี data-page:",
+                item.textContent.trim()
+            );
+            return;
+        }
+
+        showSystemPage(page, item);
+    });
+});
+
+// Quick Action บน Dashboard
+document.querySelectorAll(".quick-card[data-page]").forEach(function (card) {
+    card.addEventListener("click", function (event) {
+        event.preventDefault();
+        showSystemPage(card.dataset.page);
+    });
+});
+
 
 
 

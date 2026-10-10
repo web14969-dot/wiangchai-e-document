@@ -1309,6 +1309,43 @@
 <!-- END INCOMING DOCUMENT DISPATCHES -->
 
 
+```html
+<!-- PAGE: INCOMING DOCUMENTS -->
+<section id="receivePage" class="section-block" hidden>
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">INCOMING DOCUMENTS</span>
+            <h2>ระบบหนังสือรับ</h2>
+            <p>จัดการและลงทะเบียนหนังสือรับของเทศบาลตำบลเวียงชัย</p>
+        </div>
+    </div>
+
+    <div class="dashboard-panel" style="padding:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+            <h3 style="margin:0;">รายการหนังสือรับ</h3>
+            <button type="button" class="btn btn-primary" id="newIncomingDocumentBtn">
+                + ลงทะเบียนหนังสือรับ
+            </button>
+        </div>
+
+        <div id="receivePageMessage" role="status">
+            หน้าระบบหนังสือรับพร้อมสำหรับพัฒนาฟอร์มลงทะเบียน
+        </div>
+
+        <div id="incomingRegistrationFormContainer" hidden style="margin-top:24px;">
+            <h3>ลงทะเบียนหนังสือรับ</h3>
+
+            <p>ขั้นถัดไปจะเพิ่มแบบฟอร์มและเชื่อมต่อฟังก์ชันลงทะเบียนใน Supabase</p>
+
+            <button type="button" id="cancelIncomingDocumentBtn">
+                ยกเลิก
+            </button>
+        </div>
+    </div>
+</section>
+<!-- END PAGE: INCOMING DOCUMENTS -->
+```
+            
             <!-- FOOTER -->
             <footer class="footer">
 

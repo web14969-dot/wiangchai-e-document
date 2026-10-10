@@ -169,178 +169,113 @@ document.addEventListener(
 
 const navItems = document.querySelectorAll(".nav-item");
 
-function showSystemPage(page, clickedItem = null) {
-    // หน้าปลายทางที่เราจะเชื่อมต่อในระบบ
-    const pageTitles = {
-        dashboard: "หน้าหลัก",
-        receive: "หนังสือรับ",
-        dispatch: "หนังสือส่ง",
-        register: "ทะเบียนหนังสือ",
-        search: "ค้นหาเอกสาร",
-        endorse: "เกษียนหนังสือ",
-        reports: "รายงาน / สถิติ",
-        users: "ผู้ใช้งาน",
-        settings: "ตั้งค่าระบบ",
-        stamp: "พิมพ์ตรารับ"
-    };
-
-    const title = pageTitles[page];
-
-    if (!title) {
-        console.warn("ไม่รู้จักหน้าที่ต้องการเปิด:", page);
-        return;
-    }
-
-    // ปรับสถานะเมนูด้านซ้าย
-    navItems.forEach(function (nav) {
-        nav.classList.remove("active");
-    });
-
-    if (clickedItem && clickedItem.classList.contains("nav-item")) {
-        clickedItem.classList.add("active");
-    } else {
-        const matchingNav = document.querySelector(
-            '.nav-item[data-page="' + page + '"]'
-        );
-
-        if (matchingNav) {
-            matchingNav.classList.add("active");
-        }
-    }
-
-    // Dashboard เดิมยังคงแสดงตามปกติ
-    const dashboard = document.querySelector("main");
-
-    if (!dashboard) {
-        console.warn("ไม่พบส่วน main ของหน้าเว็บ");
-        return;
-    }
-
-    // สร้างพื้นที่แจ้งสถานะหน้าที่เลือก
-    let pagePanel = document.getElementById("systemPagePanel");
-
-    if (!pagePanel) {
-        pagePanel = document.createElement("section");
-        pagePanel.id = "systemPagePanel";
-        pagePanel.className = "section-block";
-        pagePanel.style.cssText =
-            "background:#fff;border:1px solid #e5e7eb;" +
-            "border-radius:14px;padding:24px;margin:24px 0;";
-
-        dashboard.prepend(pagePanel);
-    }
-
-    // ซ่อน Dashboard เดิมเมื่อเปิดหน้าทำงานอื่น
-    const dashboardSections = dashboard.querySelectorAll(
-        ".section-block"
+```js
+function openIncomingDocumentsPage() {
+    const dashboardElements = document.querySelectorAll(
+        ".content > .page-header, " +
+        ".content > .stats-grid, " +
+        ".content > .section-block, " +
+        ".content > .dashboard-grid"
     );
 
-    dashboardSections.forEach(function (section) {
-        if (section.id !== "systemPagePanel") {
-            section.dataset.navigationHidden = "true";
-            section.hidden = page !== "dashboard";
-        }
+    dashboardElements.forEach(function (element) {
+        element.hidden = true;
     });
 
-    if (page === "dashboard") {
-        pagePanel.hidden = true;
+    const receivePage = document.getElementById("receivePage");
 
-        dashboardSections.forEach(function (section) {
-            if (section.dataset.navigationHidden === "true") {
-                section.hidden = false;
-                delete section.dataset.navigationHidden;
-            }
-        });
-
-        return;
+    if (receivePage) {
+        receivePage.hidden = false;
     }
 
-    pagePanel.hidden = false;
-
-    const heading = document.createElement("h2");
-    heading.textContent = title;
-
-    const description = document.createElement("p");
-    description.textContent =
-        "หน้านี้เตรียมพื้นที่ไว้แล้ว ขั้นตอนถัดไปจะเชื่อมแบบฟอร์มและข้อมูลจริงจาก Supabase";
-
-    const backButton = document.createElement("button");
-    backButton.type = "button";
-    backButton.textContent = "กลับหน้าหลัก";
-    backButton.className = "btn btn-primary";
-    backButton.addEventListener("click", function () {
-        showSystemPage("dashboard");
+    document.querySelectorAll(".nav-item").forEach(function (item) {
+        item.classList.remove("active");
     });
 
-    pagePanel.replaceChildren(heading, description, backButton);
+    const incomingNav = Array.from(
+        document.querySelectorAll(".nav-item")
+    ).find(function (item) {
+        return item.textContent.trim().includes("หนังสือรับ");
+    });
 
-    if (window.innerWidth <= 1050 && typeof closeSidebar === "function") {
-        closeSidebar();
+    if (incomingNav) {
+        incomingNav.classList.add("active");
+    }
+
+    const message = document.getElementById("receivePageMessage");
+
+    if (message) {
+        message.textContent = "หน้าระบบหนังสือรับพร้อมใช้งาน";
     }
 }
 
-// เมนูด้านซ้าย
-navItems.forEach(function (item) {
-    item.addEventListener("click", function (event) {
-        event.preventDefault();
+function returnToDashboard() {
+    const receivePage = document.getElementById("receivePage");
 
-        const page = item.dataset.page;
+    if (receivePage) {
+        receivePage.hidden = true;
+    }
 
-        if (!page) {
-            console.warn(
-                "เมนูนี้ยังไม่มี data-page:",
-                item.textContent.trim()
-            );
-            return;
-        }
-
-        showSystemPage(page, item);
+    document.querySelectorAll(
+        ".content > .page-header, " +
+        ".content > .stats-grid, " +
+        ".content > .section-block, " +
+        ".content > .dashboard-grid"
+    ).forEach(function (element) {
+        element.hidden = false;
     });
-});
+}
 
-// Quick Action บน Dashboard
-document.querySelectorAll(".quick-card[data-page]").forEach(function (card) {
-    card.addEventListener("click", function (event) {
-        event.preventDefault();
-        showSystemPage(card.dataset.page);
-    });
-});
-
-
-
-
-        /* =====================================================
-           QUICK ACTION
-        ===================================================== */
-
-        const quickCards =
-            document.querySelectorAll(
-                ".quick-card"
-            );
-
-
-        quickCards.forEach(
-            function (card) {
-
-                card.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.preventDefault();
-
-
-                        console.log(
-                            "Quick Action:",
-                            card.innerText.trim()
-                        );
-
-                    }
-                );
-
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".nav-item").forEach(function (item) {
+        item.addEventListener("click", function (event) {
+            if (!item.textContent.trim().includes("หนังสือรับ")) {
+                return;
             }
-        );
 
+            event.preventDefault();
+            openIncomingDocumentsPage();
+        });
+    });
 
+    document.querySelectorAll(".quick-card").forEach(function (card) {
+        card.addEventListener("click", function (event) {
+            if (!card.textContent.trim().includes("ลงทะเบียนหนังสือรับ")) {
+                return;
+            }
+
+            event.preventDefault();
+            openIncomingDocumentsPage();
+
+            const formContainer = document.getElementById(
+                "incomingRegistrationFormContainer"
+            );
+
+            if (formContainer) {
+                formContainer.hidden = false;
+            }
+        });
+    });
+
+    const newButton = document.getElementById("newIncomingDocumentBtn");
+    const cancelButton = document.getElementById("cancelIncomingDocumentBtn");
+    const formContainer = document.getElementById(
+        "incomingRegistrationFormContainer"
+    );
+
+    if (newButton && formContainer) {
+        newButton.addEventListener("click", function () {
+            formContainer.hidden = false;
+        });
+    }
+
+    if (cancelButton && formContainer) {
+        cancelButton.addEventListener("click", function () {
+            formContainer.hidden = true;
+        });
+    }
+});
+```
 
         /* =====================================================
            SYSTEM MENU

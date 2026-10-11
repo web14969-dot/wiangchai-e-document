@@ -181,50 +181,62 @@
         }
     }
 
-    function showDashboard() {
-        state.activePage = "dashboard";
 
-        const receivePage = $("#receivePage");
-        if (receivePage) receivePage.hidden = true;
+function showDashboard() {
+    state.activePage = "dashboard";
 
-        getDashboardSections().forEach((section) => {
-            section.hidden = false;
-        });
+    const receivePage = $("#receivePage");
+
+    if (receivePage) {
+        receivePage.hidden = true;
     }
 
-    function showIncomingPage(openForm) {
-        if (!requireSession()) return;
+    getDashboardSections().forEach((section) => {
+        section.hidden = false;
+    });
+}
 
-        state.activePage = "receive";
+function showIncomingPage(openForm = false) {
+    if (!requireSession()) return;
 
-        getDashboardSections().forEach((section) => {
-            section.hidden = true;
-        });
+    state.activePage = "receive";
 
-        const receivePage = $("#receivePage");
-        if (receivePage) receivePage.hidden = false;
+    getDashboardSections().forEach((section) => {
+        section.hidden = true;
+    });
 
-        const message = $("#receivePageMessage");
-        if (message) message.textContent = "ระบบหนังสือรับพร้อมใช้งาน";
+    const receivePage = $("#receivePage");
 
-        if (openForm) {
-            showIncomingForm();
-        } else {
-            hideIncomingForm();
-        }
-
-        loadIncomingDocuments();
+    if (receivePage) {
+        receivePage.hidden = false;
     }
 
-    function getDashboardSections() {
-        const content = $(".content");
-        if (!content) return [];
+    const message = $("#receivePageMessage");
 
-        return Array.from(content.children).filter(
-            (element) => element.id !== "receivePage"
-        );
+    if (message) {
+        message.textContent = "กำลังโหลดทะเบียนหนังสือรับ";
     }
 
+    const formContainer = $("#incomingRegistrationFormContainer");
+
+    if (formContainer) {
+        formContainer.hidden = !openForm;
+    }
+
+    loadIncomingDocuments();
+}
+
+function getDashboardSections() {
+    const content = $(".content");
+
+    if (!content) return [];
+
+    return Array.from(content.children).filter(
+        (element) => element.id !== "receivePage"
+    );
+}
+
+   
     function showNotReady(label) {
         window.alert(`เมนู “${label}” ยังไม่ได้เชื่อมต่อกับหน้าระบบจริง`);
     }

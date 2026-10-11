@@ -1027,90 +1027,112 @@
 
                         </a>
 
+                        
+<!-- PAGE: INCOMING DOCUMENTS -->
+<section id="receivePage" class="section-block" hidden>
 
-
-                        <a href="#" class="document-item">
-
-<div id="incomingRegistrationFormContainer" hidden style="margin-top:24px;">
-    <h3>ลงทะเบียนหนังสือรับ</h3>
-
-    <form id="incomingRegistrationForm">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
-
-            <div>
-                <label for="incomingSubject">เรื่องหนังสือ *</label>
-                <input id="incomingSubject" name="subject" type="text" required maxlength="500" placeholder="ระบุเรื่องหนังสือ" style="display:block;width:100%;padding:10px;margin-top:6px;">
-            </div>
-
-            <div>
-                <label for="incomingSender">จากหน่วยงาน / ผู้ส่ง *</label>
-                <input id="incomingSender" name="sender_name" type="text" required maxlength="255" placeholder="ระบุหน่วยงานหรือผู้ส่ง" style="display:block;width:100%;padding:10px;margin-top:6px;">
-            </div>
-
-            <div>
-                <label for="incomingReceivedDate">วันที่รับหนังสือ *</label>
-                <input id="incomingReceivedDate" name="received_date" type="date" required style="display:block;width:100%;padding:10px;margin-top:6px;">
-            </div>
-
-            <div>
-                <label for="incomingDocumentDate">วันที่หนังสือ</label>
-                <input id="incomingDocumentDate" name="document_date" type="date" style="display:block;width:100%;padding:10px;margin-top:6px;">
-            </div>
-
-            <div>
-                <label for="incomingReferenceNo">เลขที่หนังสือ</label>
-                <input id="incomingReferenceNo" name="reference_no" type="text" maxlength="100" placeholder="ระบุเลขที่หนังสือ" style="display:block;width:100%;padding:10px;margin-top:6px;">
-            </div>
-
-            <div>
-                <label for="incomingNotes">หมายเหตุ</label>
-                <textarea id="incomingNotes" name="notes" rows="3" placeholder="หมายเหตุเพิ่มเติม" style="display:block;width:100%;padding:10px;margin-top:6px;"></textarea>
-            </div>
-
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">INCOMING DOCUMENTS</span>
+            <h2>ระบบหนังสือรับ</h2>
+            <p>จัดการและลงทะเบียนหนังสือรับของเทศบาลตำบลเวียงชัย</p>
         </div>
+    </div>
 
-        <p id="incomingRegistrationMessage" role="status" aria-live="polite"></p>
-
-        <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
-            <button type="submit" class="btn btn-primary">
-                บันทึกทะเบียนหนังสือรับ
-            </button>
-
-            <button type="button" id="cancelIncomingDocumentBtn">
-                ยกเลิก
+    <div class="dashboard-panel" style="padding:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <h3 style="margin:0;">รายการหนังสือรับ</h3>
+            <button type="button" class="btn btn-primary" id="newIncomingDocumentBtn">
+                + ลงทะเบียนหนังสือรับ
             </button>
         </div>
-    </form>
-</div>
 
-                            
-<div class="dashboard-panel" style="padding:24px;margin-top:20px;">
-    <h3>ทะเบียนหนังสือรับ</h3>
+        <p id="receivePageMessage" role="status" aria-live="polite">
+            พร้อมใช้งาน
+        </p>
 
-    <div style="overflow-x:auto;">
-        <table style="width:100%;border-collapse:collapse;text-align:left;">
-            <thead>
-                <tr>
-                    <th style="padding:12px;">เลขทะเบียนรับ</th>
-                    <th style="padding:12px;">เรื่อง</th>
-                    <th style="padding:12px;">จาก</th>
-                    <th style="padding:12px;">วันที่รับ</th>
-                </tr>
-            </thead>
-            <tbody id="registeredIncomingDocumentsBody">
-                <tr>
-                    <td colspan="4" style="padding:16px;">รายการหนังสือรับจะแสดงที่นี่</td>
-                </tr>
-            </tbody>
-        </table>
+        <div id="incomingRegistrationFormContainer" hidden style="margin-top:24px;">
+            <h3>ลงทะเบียนหนังสือรับ</h3>
+
+            <form id="incomingRegistrationForm">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+
+                    <div>
+                        <label for="incomingSubject">เรื่องหนังสือ *</label>
+                        <input id="incomingSubject" name="subject" type="text" required maxlength="500" style="display:block;width:100%;padding:10px;margin-top:6px;">
+                    </div>
+
+                    <div>
+                        <label for="incomingSender">จากหน่วยงาน / ผู้ส่ง *</label>
+                        <input id="incomingSender" name="sender_name" type="text" required maxlength="255" style="display:block;width:100%;padding:10px;margin-top:6px;">
+                    </div>
+
+                    <div>
+                        <label for="incomingReceivedDate">วันที่รับหนังสือ *</label>
+                        <input id="incomingReceivedDate" name="received_date" type="date" required style="display:block;width:100%;padding:10px;margin-top:6px;">
+                    </div>
+
+                    <div>
+                        <label for="incomingDocumentDate">วันที่หนังสือ</label>
+                        <input id="incomingDocumentDate" name="document_date" type="date" style="display:block;width:100%;padding:10px;margin-top:6px;">
+                    </div>
+
+                    <div>
+                        <label for="incomingReferenceNo">เลขที่หนังสือ</label>
+                        <input id="incomingReferenceNo" name="reference_no" type="text" maxlength="100" style="display:block;width:100%;padding:10px;margin-top:6px;">
+                    </div>
+
+                    <div>
+                        <label for="incomingNotes">หมายเหตุ</label>
+                        <textarea id="incomingNotes" name="notes" rows="3" style="display:block;width:100%;padding:10px;margin-top:6px;"></textarea>
+                    </div>
+
+                </div>
+
+                <p id="incomingRegistrationMessage" role="status" aria-live="polite"></p>
+
+                <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+                    <button type="submit" class="btn btn-primary">
+                        บันทึกทะเบียนหนังสือรับ
+                    </button>
+
+                    <button type="button" id="cancelIncomingDocumentBtn">
+                        ยกเลิก
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-                            
+    <div class="dashboard-panel" style="padding:24px;margin-top:20px;">
+        <h3>ทะเบียนหนังสือรับ</h3>
+
+        <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;text-align:left;">
+                <thead>
+                    <tr>
+                        <th style="padding:12px;">เลขทะเบียนรับ</th>
+                        <th style="padding:12px;">เรื่อง</th>
+                        <th style="padding:12px;">จาก</th>
+                        <th style="padding:12px;">วันที่รับ</th>
+                    </tr>
+                </thead>
+
+                <tbody id="registeredIncomingDocumentsBody">
+                    <tr>
+                        <td colspan="4" style="padding:16px;">
+                            รายการหนังสือรับจะแสดงที่นี่
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </section>
 <!-- END PAGE: INCOMING DOCUMENTS -->
-```
+
+                     
             
             <!-- FOOTER -->
             <footer class="footer">
